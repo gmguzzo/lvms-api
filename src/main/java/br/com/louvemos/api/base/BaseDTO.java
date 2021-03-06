@@ -6,6 +6,9 @@
 package br.com.louvemos.api.base;
 
 import br.com.louvemos.api.chord.ChordDTO;
+import br.com.louvemos.api.song.SongDTO;
+import br.com.louvemos.api.album.AlbumDTO;
+import br.com.louvemos.api.artist.ArtistDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
@@ -32,5 +35,11 @@ public class BaseDTO implements Serializable {
 
     private List<ChordDTO> chords;
     private ChordDTO chord;
+
+    private SongDTO song;
+
+    private AlbumDTO album;
+
+    private ArtistDTO artist;
 
 }

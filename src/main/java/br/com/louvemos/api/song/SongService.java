@@ -5,7 +5,10 @@ package br.com.louvemos.api.song;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.louvemos.api.artist.*;
 import br.com.louvemos.api.album.Album;
+import br.com.louvemos.api.album.AlbumService;
+import br.com.louvemos.api.album.AlbumServiceValidator;
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class SongService {
+
+    @Autowired
+    private AlbumServiceValidator albumServiceValidator;
+
+    @Autowired
+    private AlbumService albumService;
 
     @Autowired
     private SongServiceValidator songServiceValidator;
@@ -64,7 +73,16 @@ public class SongService {
 //
 //        return cList;
 //    }
-    public Song create(Song song, Album album) throws LvmsException {
+    public Song create(Song song, Album album, Artist ar) throws LvmsException {
+        Album aPersist;
+        if (album.getId() != null) {
+            aPersist = albumService.load(album.getId());
+            albumServiceValidator.validateAlbumFound(aPersist);
+        } else {
+            aPersist = albumService.create(album, ar);
+        }
+
+        song.setAlbum(aPersist);
         song.setUpTimestamps();
 
         songServiceValidator.validatePersist(song);

@@ -7,6 +7,7 @@ public enum LvmsCodesEnum {
     // IMPORTANT: NUMBERS MUST NOT REPEAT (prefix)-YYY
     // chord prefix: 1
     // song prefix: 2
+    // album prefix: 3
     
     CHORD_NULL(HttpStatus.BAD_REQUEST, 1001L, "chord.null"),
     CHORD_BASS_STRING_INVALID(HttpStatus.BAD_REQUEST, 1002L, "chord.bass.string.invalid"),
@@ -15,7 +16,11 @@ public enum LvmsCodesEnum {
     CHORD_DIAGRAM_INVALID(HttpStatus.BAD_REQUEST, 1005L, "chord.diagram.invalid"),
     CHORD_SYMBOL_INVALID(HttpStatus.BAD_REQUEST, 1006L, "chord.symbol.invalid"),
     
-    SONG_NULL(HttpStatus.BAD_REQUEST, 2001L, "song.null");
+    SONG_NULL(HttpStatus.BAD_REQUEST, 2001L, "song.null"),
+    
+    ALBUM_NULL(HttpStatus.BAD_REQUEST, 3001L, "album.null"),
+    
+    ARTIST_NULL(HttpStatus.BAD_REQUEST, 4001L, "artist.null");
 
     private Long code;
     private String key;
