@@ -36,6 +36,7 @@ public class BaseDTO implements Serializable {
     private List<ChordDTO> chords;
     private ChordDTO chord;
 
+    private List<SongDTO> songs;
     private SongDTO song;
 
     private AlbumDTO album;

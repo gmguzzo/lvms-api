@@ -6,11 +6,16 @@
 package br.com.louvemos.api.artist;
 
 import br.com.louvemos.api.base.BaseEntity;
+import br.com.louvemos.api.album.Album;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +35,9 @@ public class Artist extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ARTIST")
     private Long id;
+
+    @OneToMany(mappedBy = "artist", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<Album> albums;
 
     @Column(name = "artist_name", nullable = false)
     private String artistName;
