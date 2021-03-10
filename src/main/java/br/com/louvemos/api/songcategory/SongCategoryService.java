@@ -59,6 +59,9 @@ public class SongCategoryService {
         Category cPersist = categoryService.load(c.getId());
         categoryServiceValidator.validateCategoryFound(cPersist);
 
+        sc.setSong(sPersist);
+        sc.setCategory(cPersist);
+
         sc.setUpTimestamps();
 
         songCategoryServiceValidator.validatePersist(sc);

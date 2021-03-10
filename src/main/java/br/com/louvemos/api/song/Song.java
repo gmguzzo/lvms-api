@@ -51,6 +51,9 @@ public class Song extends BaseEntity {
     @Column(name = "tone", columnDefinition = "text", nullable = false)
     private String tone;
 
+    @Column(name = "status", columnDefinition = "text", nullable = false)
+    private String status;
+
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_id"))
     private Album album;

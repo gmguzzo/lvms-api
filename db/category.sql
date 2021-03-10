@@ -7,7 +7,8 @@ CREATE TABLE category
     created timestamp with time zone NOT NULL,
     updated timestamp with time zone NOT NULL,
     category_name text NOT NULL,
-    description text
+    description text,
+    CONSTRAINT category_pkey PRIMARY KEY (id)
 );
 ALTER TABLE category OWNER to lvms;
 CREATE SEQUENCE seq_category
@@ -28,6 +29,7 @@ CREATE TABLE song_category
     song_id bigint NOT NULL,
     category_id bigint NOT NULL,
     main boolean NOT NULL,
+    CONSTRAINT song_category_pkey PRIMARY KEY (id),
     CONSTRAINT fk_song_id FOREIGN KEY (song_id)
       REFERENCES public.song (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,

@@ -37,7 +37,7 @@ public class SongCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SONG")
     private Long id;
 
-    @Column(name = "title", columnDefinition = "boolean", nullable = false)
+    @Column(name = "main", columnDefinition = "boolean", nullable = false)
     private boolean main = false;
 
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)

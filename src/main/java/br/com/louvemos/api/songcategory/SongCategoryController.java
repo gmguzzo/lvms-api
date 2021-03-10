@@ -58,8 +58,8 @@ public class SongCategoryController {
 
         // Convert
         SongCategory sc = songCategoryConverter.toModel(null, bdIn.getSongCategory());
-        Song s = songConverter.toModel(null, bdIn.getSongCategory().getSong());
-        Category c = categoryConverter.toModel(null, bdIn.getSongCategory().getCategory());
+        Song s = songConverter.toModel(bdIn.getSongCategory().getSong().getId(), null);
+        Category c = categoryConverter.toModel(bdIn.getSongCategory().getCategory().getId(), null);
 
         // Create
         SongCategory sPersist = songCategoryService.create(sc, s, c);

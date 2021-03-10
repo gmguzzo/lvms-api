@@ -31,13 +31,22 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
             List<Long> albumIds,
             List<Long> artistIds,
             String q,
+            List<String> categoryList,
             Integer firstResult,
             Integer maxResults,
             LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+
         String queryStrBase = "SELECT s.*\n"
                 + "FROM song s \n"
                 + "JOIN album a ON s.album_id = a.id \n"
                 + "JOIN artist ar ON a.artist_id = ar.id\n";
+
+        if (categoryList != null && !categoryList.isEmpty()) {
+            queryStrBase += "JOIN (SELECT DISTINCT sc.song_id as sId\n"
+                    + "		FROM song_category sc\n"
+                    + "		LEFT JOIN category c ON c.id = sc.category_id\n"
+                    + "		WHERE c.category_name IN (:categoryList)) categories ON categories.sId = s.id\n";
+        }
 
         List<String> filterStrList = new ArrayList();
 
@@ -94,6 +103,9 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
         }
         if (artistIds != null && !artistIds.isEmpty()) {
             query.setParameterList("artistIds", artistIds);
+        }
+        if (categoryList != null && !categoryList.isEmpty()) {
+            query.setParameterList("categoryList", categoryList);
         }
 
         if (!StringUtils.isBlank(q)) {

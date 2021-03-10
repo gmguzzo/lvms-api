@@ -34,9 +34,11 @@ public class SongDTO implements Serializable {
 
     private String lyric;
 
+    private String status;
+
     private AlbumDTO album;
 
-    private List<Category> categories;
+    private List<CategoryDTO> categories;
 
     public SongDTO(Long id) {
         this.id = id;

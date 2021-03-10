@@ -63,6 +63,7 @@ public class SongService {
             List<Long> albumIds,
             List<Long> artistIds,
             String q,
+            List<String> categoryList,
             Integer firstResult,
             Integer maxResults,
             LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
@@ -78,7 +79,7 @@ public class SongService {
                     }
                 });
 
-        List<Song> cList = songRepository.list(ids, albumIds, artistIds, q, firstResult, maxResults, sortWithDbKeys);
+        List<Song> cList = songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
 
         return cList;
     }
