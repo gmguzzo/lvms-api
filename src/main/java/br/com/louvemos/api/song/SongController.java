@@ -5,6 +5,8 @@
  */
 package br.com.louvemos.api.song;
 
+import br.com.louvemos.api.category.Category;
+import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumConverter;
@@ -15,6 +17,7 @@ import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.ControllerUtils;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
+import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.exception.LvmsException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -53,6 +56,9 @@ public class SongController {
 
     @Autowired
     private ArtistConverter artistConverter;
+
+    @Autowired
+    private CategoryConverter categoryConverter;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -119,8 +125,15 @@ public class SongController {
             ar = artistConverter.toModel(bdIn.getSong().getAlbum().getArtist().getId(), bdIn.getSong().getAlbum().getArtist());
         }
 
+        List<Category> cList = new ArrayList<>();
+        if (bdIn.getSong().getCategories() != null && !bdIn.getSong().getCategories().isEmpty()) {
+            for (CategoryDTO cd : bdIn.getSong().getCategories()) {
+                cList.add(categoryConverter.toModel(cd.getId(), cd));
+            }
+        }
+
         // Create
-        Song sPersist = songService.create(s, a, ar);
+        Song sPersist = songService.create(s, a, ar, cList);
 
         // Embed
         BaseDTO bdOut = new BaseDTO();

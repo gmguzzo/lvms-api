@@ -6,9 +6,11 @@ CREATE TABLE song
     id bigint NOT NULL,
     created timestamp with time zone NOT NULL,
     updated timestamp with time zone NOT NULL,
+    status text NOT NULL default 'ACTIVE'
     title text NOT NULL,
     description text,
     lyric text NOT NULL,
+    tone text NOT NULL,
     album_id bigint,
     CONSTRAINT song_pkey PRIMARY KEY (id),
     CONSTRAINT fk_album_id FOREIGN KEY (album_id)

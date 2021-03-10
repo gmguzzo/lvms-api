@@ -8,6 +8,8 @@ public enum LvmsCodesEnum {
     // chord prefix: 1
     // song prefix: 2
     // album prefix: 3
+    // artist prefix: 4
+    // category prefix: 5
     
     CHORD_NULL(HttpStatus.BAD_REQUEST, 1001L, "chord.null"),
     CHORD_BASS_STRING_INVALID(HttpStatus.BAD_REQUEST, 1002L, "chord.bass.string.invalid"),
@@ -20,7 +22,9 @@ public enum LvmsCodesEnum {
     
     ALBUM_NULL(HttpStatus.BAD_REQUEST, 3001L, "album.null"),
     
-    ARTIST_NULL(HttpStatus.BAD_REQUEST, 4001L, "artist.null");
+    ARTIST_NULL(HttpStatus.BAD_REQUEST, 4001L, "artist.null"),
+    
+    CATEGORY_NULL(HttpStatus.BAD_REQUEST, 5001L, "category.null");
 
     private Long code;
     private String key;

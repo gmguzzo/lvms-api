@@ -5,6 +5,7 @@ package br.com.louvemos.api.song;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.louvemos.api.category.*;
 import br.com.louvemos.api.artist.*;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumService;
@@ -28,6 +29,9 @@ public class SongService {
 
     @Autowired
     private AlbumService albumService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private SongServiceValidator songServiceValidator;
@@ -79,13 +83,19 @@ public class SongService {
         return cList;
     }
 
-    public Song create(Song song, Album album, Artist ar) throws LvmsException {
+    public Song create(Song song, Album album, Artist ar, List<Category> categories) throws LvmsException {
         Album aPersist;
         if (album.getId() != null) {
             aPersist = albumService.load(album.getId());
             albumServiceValidator.validateAlbumFound(aPersist);
         } else {
             aPersist = albumService.create(album, ar);
+        }
+
+        if (categories != null && !categories.isEmpty()) {
+            for (Category c : categories) {
+                categoryService.create(c);
+            }
         }
 
         song.setAlbum(aPersist);
