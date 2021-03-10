@@ -35,6 +35,8 @@ public class SongDTO implements Serializable {
     private String lyric;
 
     private String status;
+    
+    private String tone;
 
     private AlbumDTO album;
 

@@ -24,6 +24,7 @@ public class SongConverter {
         s.setTitle(sd.getTitle());
         s.setDescription(sd.getDescription());
         s.setLyric(sd.getLyric());
+        s.setTone(sd.getTone());
         s.setStatus(sd.getStatus());
 
         return s;
@@ -39,6 +40,7 @@ public class SongConverter {
         sd.setTitle(s.getTitle());
         sd.setDescription(s.getDescription());
         sd.setLyric(s.getLyric());
+        sd.setTone(s.getTone());
         sd.setStatus(s.getStatus());
 
         return sd;
