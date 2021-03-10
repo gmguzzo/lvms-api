@@ -22,7 +22,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category update(Category c) throws LvmsException {
-        Category cPersist = load(c.getId());
+        Category cPersist = load(c.getId(), null);
         categoryServiceValidator.validateCategoryFound(cPersist);
 
         cPersist.setCategoryName(c.getCategoryName());
@@ -35,8 +35,27 @@ public class CategoryService {
 
     }
 
-    public Category load(Long id) {
-        return categoryRepository.loadById(id);
+    public Category loadOrCreate(Category category) throws LvmsException {
+        if (category == null) {
+            return null;
+        }
+
+        Category cPersist = this.load(category.getId(), category.getCategoryName());
+
+        if (cPersist != null) {
+            return category;
+        }
+
+        return this.create(category);
+
+    }
+
+    public Category load(Long id, String name) {
+        if (id != null) {
+            return categoryRepository.loadById(id);
+        } else {
+            return categoryRepository.loadByName(name);
+        }
     }
 
     public Category create(Category category) throws LvmsException {

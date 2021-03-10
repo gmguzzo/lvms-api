@@ -56,7 +56,7 @@ public class SongCategoryService {
         Song sPersist = songService.load(song.getId());
         songServiceValidator.validateSongFound(sPersist);
 
-        Category cPersist = categoryService.load(c.getId());
+        Category cPersist = categoryService.load(c.getId(), c.getCategoryName());
         categoryServiceValidator.validateCategoryFound(cPersist);
 
         sc.setSong(sPersist);

@@ -13,6 +13,7 @@ import br.com.louvemos.api.album.AlbumServiceValidator;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.songcategory.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class SongService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SongCategoryService songCategoryService;
 
     @Autowired
     private SongServiceValidator songServiceValidator;
@@ -93,18 +97,21 @@ public class SongService {
             aPersist = albumService.create(album, ar);
         }
 
-        if (categories != null && !categories.isEmpty()) {
-            for (Category c : categories) {
-                categoryService.create(c);
-            }
-        }
-
         song.setAlbum(aPersist);
         song.setUpTimestamps();
 
         songServiceValidator.validatePersist(song);
 
-        return songRepository.save(song);
+        Song sPersist = songRepository.save(song);
+
+        if (categories != null && !categories.isEmpty()) {
+            for (Category c : categories) {
+                Category cPersist = categoryService.loadOrCreate(c);
+                songCategoryService.create(new SongCategory(), sPersist, cPersist);
+            }
+        }
+
+        return sPersist;
     }
 
     public void delete(Long cId) throws LvmsException {
