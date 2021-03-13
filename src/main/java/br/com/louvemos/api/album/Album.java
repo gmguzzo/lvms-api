@@ -43,7 +43,7 @@ public class Album extends BaseEntity {
     @Column(name = "album_name", nullable = false)
     private String albumName;
 
-    @Column(name = "genre", nullable = false)
+    @Column(name = "genre")
     private String genre;
 
     @Column(name = "debut")
