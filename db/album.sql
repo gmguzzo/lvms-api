@@ -8,7 +8,7 @@ CREATE TABLE album
     updated timestamp with time zone NOT NULL,
     album_name text not null,
     artist_id bigint,
-    genre text NOT NULL,
+    genre text,
     debut text,
     CONSTRAINT album_pkey PRIMARY KEY (id),
     CONSTRAINT fk_artist_id FOREIGN KEY (artist_id)
