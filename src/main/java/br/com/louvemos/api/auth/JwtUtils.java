@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.louvemos.auth;
+package br.com.louvemos.api.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,14 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author gmguzzo
  */
+@Component
 public class JwtUtils {
 
-    private String extractUsername(String token) {
+    private final String SECRET_KEY = System.getenv("JWT_SECRET");
+
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

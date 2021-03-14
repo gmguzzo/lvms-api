@@ -11,6 +11,8 @@ public enum LvmsCodesEnum {
     // artist prefix: 4
     // category prefix: 5
     
+    AUTHENTICATION_FAILED(HttpStatus.FORBIDDEN, 0001L, "forbidden"),
+    
     CHORD_NULL(HttpStatus.BAD_REQUEST, 1001L, "chord.null"),
     CHORD_BASS_STRING_INVALID(HttpStatus.BAD_REQUEST, 1002L, "chord.bass.string.invalid"),
     CHORD_SOUNDED_STRINGS_INVALID(HttpStatus.BAD_REQUEST, 1003L, "chord.sounded.strings.invalid"),
