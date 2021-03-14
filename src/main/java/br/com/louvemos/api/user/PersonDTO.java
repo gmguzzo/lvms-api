@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDTO implements Serializable {
+public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,7 @@ public class UserDTO implements Serializable {
     private String username;
     private String password;
 
-    public UserDTO(Long id) {
+    public PersonDTO(Long id) {
         this.id = id;
     }
 

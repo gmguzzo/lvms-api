@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
  * @author gmguzzo
  */
 @Component
-public class UserServiceValidator {
+public class PersonServiceValidator {
 
-    void validateUserFound(User sPersist) {
+    void validatePersonFound(Person pPersist) {
     }
 
-    void validatePersist(User uPersist) {
+    void validatePersist(Person pPersist) {
     }
 
 }

@@ -24,11 +24,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@SequenceGenerator(sequenceName = "SEQ_USER", name = "SEQ_USER", allocationSize = 1, initialValue = 1)
-public class User extends BaseEntity {
+@SequenceGenerator(sequenceName = "SEQ_PERSON", name = "SEQ_PERSON", allocationSize = 1, initialValue = 1)
+public class Person extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USER")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PERSON")
     private Long id;
 
     @Column(name = "username", columnDefinition = "text", nullable = false)
@@ -37,7 +37,7 @@ public class User extends BaseEntity {
     @Column(name = "password", columnDefinition = "text", nullable = false)
     private String password;
 
-    public User(Long id) {
+    public Person(Long id) {
         this.id = id;
     }
 

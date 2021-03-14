@@ -13,19 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public class UserRepository extends BaseRepositoryHibernate<User> {
+public class PersonRepository extends BaseRepositoryHibernate<Person> {
 
     @Override
-    protected Class<User> getEntityClass() {
-        return User.class;
+    protected Class<Person> getEntityClass() {
+        return Person.class;
     }
 
-    public User loadByUsername(String username) {
-        String queryStr = "SELECT * from \"user\" where username = :username";
-        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(User.class);
+    public Person loadByUsername(String username) {
+        String queryStr = "SELECT * from person where username = :username";
+        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(Person.class);
 
         query.setParameter("username", username);
-        List<User> list = query.list();
+        List<Person> list = query.list();
 
         if (list == null || list.isEmpty()) {
             return null;

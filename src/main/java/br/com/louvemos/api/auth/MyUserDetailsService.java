@@ -5,7 +5,7 @@
  */
 package br.com.louvemos.api.auth;
 
-import br.com.louvemos.api.user.UserService;
+import br.com.louvemos.api.user.PersonService;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -22,12 +22,12 @@ import org.springframework.stereotype.Service;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private PersonService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        br.com.louvemos.api.user.User u = userService.load(null, username);
+        br.com.louvemos.api.user.Person u = userService.load(null, username);
         if (u == null) {
             return null;
         }

@@ -8,31 +8,31 @@ package br.com.louvemos.api.user;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserConverter {
+public class PersonConverter {
 
-    public User toModel(Long id, UserDTO ud) {
-        if (ud == null) {
+    public Person toModel(Long id, PersonDTO pd) {
+        if (pd == null) {
             if (id == null) {
                 return null;
             }
-            return new User(id);
+            return new Person(id);
         }
 
-        User u = new User();
+        Person p = new Person();
 
-        u.setId(id);
-        u.setUsername(ud.getUsername());
-        u.setPassword(ud.getPassword());
+        p.setId(id);
+        p.setUsername(pd.getUsername());
+        p.setPassword(pd.getPassword());
 
-        return u;
+        return p;
     }
 
-    public UserDTO toDTO(User u) {
+    public PersonDTO toDTO(Person u) {
         if (u == null) {
             return null;
         }
 
-        UserDTO ud = new UserDTO();
+        PersonDTO ud = new PersonDTO();
         ud.setId(u.getId());
         ud.setUsername(u.getUsername());
         ud.setPassword(u.getPassword());
