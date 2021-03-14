@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.category;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.exception.LvmsException;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/categories")
-public class CategoryController {
+public class CategoryController extends BaseController {
 
     @Autowired
     private CategoryService categoryService;

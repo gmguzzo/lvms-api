@@ -13,6 +13,7 @@ import br.com.louvemos.api.album.AlbumConverter;
 import br.com.louvemos.api.album.AlbumDTO;
 import br.com.louvemos.api.artist.ArtistConverter;
 import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.ControllerUtils;
 import br.com.louvemos.api.base.SerializationUtils;
@@ -40,7 +41,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/songs")
-public class SongController {
+public class SongController extends BaseController {
 
     @Autowired
     private SongService songService;
@@ -79,7 +80,7 @@ public class SongController {
         List<Long> albumIdList = ControllerUtils.parseCSVToLongList(albumIds);
         List<Long> artistIdList = ControllerUtils.parseCSVToLongList(artistIds);
         List<String> categoryList = ControllerUtils.parseCSVToStringList(categories);
-        
+
         firstResult = ControllerUtils.adjustFirstResult(firstResult);
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);

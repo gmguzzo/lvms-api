@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.app;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author gmguzzo
  */
 @Controller
-public class LvmsController {
+public class LvmsController extends BaseController {
 
     @Autowired
     PersonService userService;

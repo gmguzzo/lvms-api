@@ -7,6 +7,7 @@ package br.com.louvemos.api.album;
 
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistConverter;
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.exception.LvmsException;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/albums")
-public class AlbumController {
+public class AlbumController extends BaseController {
 
     @Autowired
     private AlbumService albumService;
@@ -41,39 +42,6 @@ public class AlbumController {
     @Autowired
     private ArtistConverter artistConverter;
 
-//    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    @ResponseBody
-//    public BaseDTO list(
-//            @RequestParam(required = false, value = "ids") String ids,
-//            @RequestParam(required = false, value = "symbols") String symbols,
-//            @RequestParam(required = false, value = "qSymbol") String qSymbol,
-//            @RequestParam(required = false, value = "firstResult") Integer firstResult,
-//            @RequestParam(required = false, value = "maxResults") Integer maxResults,
-//            @RequestParam(required = false, value = "sort") String sort
-//    ) throws LvmsException {
-//
-//        albumControllerValidator.validateList(ids, symbols, qSymbol, firstResult, maxResults, sort);
-//
-//        firstResult = ControllerUtils.adjustFirstResult(firstResult);
-//        maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
-//        LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
-//        List<Long> cIdList = ControllerUtils.parseCSVToLongList(ids);
-//
-//        List<String> symbolList = ControllerUtils.parseCSVToStringList(symbols);
-//
-//        List<Album> cList = albumService.list(qSymbol, cIdList, symbolList, firstResult, maxResults, sortMap);
-//
-//        BaseDTO bd = new BaseDTO();
-//        List<AlbumDTO> cdList = new ArrayList<>();
-//        cList.forEach((c) -> {
-//            cdList.add(albumConverter.toDTO(c));
-//        });
-//
-//        bd.setAlbums(cdList);
-//
-//        return bd;
-//    }
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody

@@ -12,6 +12,9 @@ public enum LvmsCodesEnum {
     // category prefix: 5
     
     AUTHENTICATION_FAILED(HttpStatus.FORBIDDEN, 0001L, "forbidden"),
+    GENERIC_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 0002L, "generic.internal.server.error"),
+    JSON_INVALID_FORMAT(HttpStatus.INTERNAL_SERVER_ERROR, 0003L, "json.invalid.format"),
+    FORBIDDEN(HttpStatus.FORBIDDEN, 0004L, "forbidden"),
     
     CHORD_NULL(HttpStatus.BAD_REQUEST, 1001L, "chord.null"),
     CHORD_BASS_STRING_INVALID(HttpStatus.BAD_REQUEST, 1002L, "chord.bass.string.invalid"),

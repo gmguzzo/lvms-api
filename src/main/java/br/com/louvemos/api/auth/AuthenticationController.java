@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.auth;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/auth")
-public class AuthenticationController {
+public class AuthenticationController extends BaseController {
 
     @Autowired
     private AuthenticationManager authenticationManager;

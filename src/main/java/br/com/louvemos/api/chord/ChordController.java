@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.chord;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.ControllerUtils;
 import br.com.louvemos.api.base.SerializationUtils;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/chords")
-public class ChordController {
+public class ChordController extends BaseController {
 
     @Autowired
     private ChordService chordService;

@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.artist;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.exception.LvmsException;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/artists")
-public class ArtistController {
+public class ArtistController extends BaseController {
 
     @Autowired
     private ArtistService artistService;
@@ -36,39 +37,6 @@ public class ArtistController {
     @Autowired
     private ArtistConverter artistConverter;
 
-//    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    @ResponseBody
-//    public BaseDTO list(
-//            @RequestParam(required = false, value = "ids") String ids,
-//            @RequestParam(required = false, value = "symbols") String symbols,
-//            @RequestParam(required = false, value = "qSymbol") String qSymbol,
-//            @RequestParam(required = false, value = "firstResult") Integer firstResult,
-//            @RequestParam(required = false, value = "maxResults") Integer maxResults,
-//            @RequestParam(required = false, value = "sort") String sort
-//    ) throws LvmsException {
-//
-//        artistControllerValidator.validateList(ids, symbols, qSymbol, firstResult, maxResults, sort);
-//
-//        firstResult = ControllerUtils.adjustFirstResult(firstResult);
-//        maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
-//        LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
-//        List<Long> cIdList = ControllerUtils.parseCSVToLongList(ids);
-//
-//        List<String> symbolList = ControllerUtils.parseCSVToStringList(symbols);
-//
-//        List<Artist> cList = artistService.list(qSymbol, cIdList, symbolList, firstResult, maxResults, sortMap);
-//
-//        BaseDTO bd = new BaseDTO();
-//        List<ArtistDTO> cdList = new ArrayList<>();
-//        cList.forEach((c) -> {
-//            cdList.add(artistConverter.toDTO(c));
-//        });
-//
-//        bd.setArtists(cdList);
-//
-//        return bd;
-//    }
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
