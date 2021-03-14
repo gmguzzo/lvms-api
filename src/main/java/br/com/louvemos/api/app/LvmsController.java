@@ -6,7 +6,7 @@
 package br.com.louvemos.api.app;
 
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.user.PersonService;
+import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

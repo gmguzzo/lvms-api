@@ -8,7 +8,7 @@ CREATE TABLE person
     updated timestamp with time zone NOT NULL,
     username text not null,
     "password" text not null,
-    CONSTRAINT user_pkey PRIMARY KEY (id)
+    CONSTRAINT person_pkey PRIMARY KEY (id)
 );
 ALTER TABLE person OWNER to lvms;
 CREATE SEQUENCE seq_person

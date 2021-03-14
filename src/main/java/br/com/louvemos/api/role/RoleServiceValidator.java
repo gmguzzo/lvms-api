@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.louvemos.api.user;
+package br.com.louvemos.api.role;
 
 import org.springframework.stereotype.Component;
 
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
  * @author gmguzzo
  */
 @Component
-public class PersonServiceValidator {
+public class RoleServiceValidator {
 
-    void validatePersonFound(Person pPersist) {
+    public void validateRoleFound(Role pPersist) {
     }
 
-    void validatePersist(Person pPersist) {
+    public void validatePersist(Role rPersist) {
     }
 
 }

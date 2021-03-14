@@ -5,8 +5,8 @@
  */
 package br.com.louvemos.api.auth;
 
-import br.com.louvemos.api.user.Person;
-import br.com.louvemos.api.user.PersonService;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

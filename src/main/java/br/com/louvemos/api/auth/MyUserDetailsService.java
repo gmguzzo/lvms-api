@@ -5,10 +5,8 @@
  */
 package br.com.louvemos.api.auth;
 
-import br.com.louvemos.api.user.PersonService;
-import java.util.ArrayList;
+import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,16 +20,17 @@ import org.springframework.stereotype.Service;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private PersonService userService;
+    private PersonService personService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        br.com.louvemos.api.user.Person u = userService.load(null, username);
-        if (u == null) {
+        br.com.louvemos.api.person.Person p = personService.load(null, username);
+        if (p == null) {
             return null;
         }
-        return new User(u.getUsername(), u.getPassword(), new ArrayList<>());
+
+        return new MyUserDetails(p);
     }
 
 }
