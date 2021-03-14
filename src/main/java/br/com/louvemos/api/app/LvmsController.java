@@ -6,7 +6,6 @@
 package br.com.louvemos.api.app;
 
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.user.Person;
 import br.com.louvemos.api.user.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,16 +30,5 @@ public class LvmsController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public void ping() throws LvmsException {
-
-        Person p = new Person();
-        p.setUsername("joel");
-        p.setPassword("monstro");
-        userService.create(p);
-
-        Person p2 = new Person();
-        p2.setUsername("gabriel");
-        p2.setPassword("palmeiras");
-        userService.create(p2);
-
     }
 }
