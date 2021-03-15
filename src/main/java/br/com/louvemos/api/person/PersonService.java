@@ -6,7 +6,9 @@ package br.com.louvemos.api.person;
  * and open the template in the editor.
  */
 import br.com.louvemos.api.auth.PasswordUtils;
+import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.roleperson.RolePersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +23,13 @@ public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private RolePersonService rolePersonService;
+
+    public void assignRole(Person p, Role r) throws LvmsException {
+        rolePersonService.create(r, p);
+    }
 
     public Person update(Person p) throws LvmsException {
         Person pPersist = load(p.getId(), null);

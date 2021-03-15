@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.person;
 
+import br.com.louvemos.api.role.RoleDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class PersonDTO implements Serializable {
     private Long id;
     private String username;
     private String password;
+    private RoleDTO role;
 
     public PersonDTO(Long id) {
         this.id = id;

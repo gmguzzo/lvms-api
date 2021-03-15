@@ -9,6 +9,8 @@ import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.role.RoleConverter;
+import br.com.louvemos.api.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +38,34 @@ public class PersonController extends BaseController {
 
     @Autowired
     private PersonConverter personConverter;
+
+    @Autowired
+    private RoleConverter roleConverter;
+
+    @RequestMapping(value = "{id}/assignrole", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO assignRole(
+            @PathVariable(value = "id") Long id,
+            @RequestBody String body
+    ) throws LvmsException {
+        BaseDTO bdIn = SerializationUtils.fromJson(body, BaseDTO.class);
+
+        // Validate
+        personControllerValidator.validateAssignRole(id, bdIn);
+
+        // Convert
+        Person p = personConverter.toModel(id, null);
+        Role r = roleConverter.toModel(null, bdIn.getPerson().getRole());
+
+        // Assign role
+        personService.assignRole(p, r);
+
+        //Embed
+        BaseDTO bd = new BaseDTO();
+        bd.setMessage("Operação realizada com sucesso");
+        return bd;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)

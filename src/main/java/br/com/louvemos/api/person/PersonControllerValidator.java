@@ -4,10 +4,25 @@ import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.StringUtils;
+import br.com.louvemos.api.role.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PersonControllerValidator {
+
+    @Autowired
+    private RoleService roleService;
+
+    public void validateAssignRole(Long id, BaseDTO bdIn) throws LvmsException {
+        validateId(id);
+        validateBaseDTO(bdIn);
+
+        PersonDTO pd = bdIn.getPerson();
+
+        validateRole(pd);
+
+    }
 
     public void validateCreate(BaseDTO bdIn) throws LvmsException {
         validateBaseDTO(bdIn);
@@ -62,6 +77,16 @@ public class PersonControllerValidator {
     private void validatePassword(PersonDTO pd) throws LvmsException {
         if (StringUtils.isBlank(pd.getPassword())) {
             throw new LvmsException(LvmsCodesEnum.PERSON_PASSWORD_INVALID);
+        }
+    }
+
+    private void validateRole(PersonDTO pd) throws LvmsException {
+        if (pd.getRole() == null) {
+            throw new LvmsException(LvmsCodesEnum.ROLE_NULL);
+        }
+
+        if (roleService.load(null, pd.getRole().getName()) == null) {
+            throw new LvmsException(LvmsCodesEnum.ROLE_NULL);
         }
     }
 
