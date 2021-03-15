@@ -10,6 +10,7 @@ public enum LvmsCodesEnum {
     // album prefix: 3
     // artist prefix: 4
     // category prefix: 5
+    // person prefix: 6
     
     AUTHENTICATION_FAILED(HttpStatus.FORBIDDEN, 0001L, "forbidden"),
     GENERIC_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 0002L, "generic.internal.server.error"),
@@ -42,7 +43,11 @@ public enum LvmsCodesEnum {
     
     CATEGORY_NULL(HttpStatus.BAD_REQUEST, 5001L, "category.null"),
     CATEGORY_NAME_INVALID(HttpStatus.BAD_REQUEST, 5002L, "category.name.invalid"),
-    CATEGORY_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 5003L, "category.description.invalid");
+    CATEGORY_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 5003L, "category.description.invalid"),
+    
+    PERSON_NULL(HttpStatus.BAD_REQUEST, 6001L, "person.null"),
+    PERSON_USERNAME_INVALID(HttpStatus.BAD_REQUEST, 6002L, "person.username.invalid"),
+    PERSON_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, 6003L, "person.password.invalid");
 
     private Long code;
     private String key;

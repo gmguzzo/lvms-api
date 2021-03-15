@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.base;
 
+import br.com.louvemos.api.person.PersonDTO;
 import br.com.louvemos.api.songcategory.SongCategoryDTO;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.chord.ChordDTO;
@@ -34,17 +35,14 @@ public class BaseDTO implements Serializable {
     private Long code;
     private Integer httpStatus;
     private String message;
-
     private List<ChordDTO> chords;
     private ChordDTO chord;
-
     private List<SongDTO> songs;
     private SongDTO song;
-
     private AlbumDTO album;
-
     private ArtistDTO artist;
     private CategoryDTO category;
     private SongCategoryDTO songCategory;
+    private PersonDTO person;
 
 }

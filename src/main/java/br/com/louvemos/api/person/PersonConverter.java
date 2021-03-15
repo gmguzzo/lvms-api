@@ -32,12 +32,12 @@ public class PersonConverter {
             return null;
         }
 
-        PersonDTO ud = new PersonDTO();
-        ud.setId(u.getId());
-        ud.setUsername(u.getUsername());
-        ud.setPassword(u.getPassword());
+        PersonDTO pd = new PersonDTO();
+        pd.setId(u.getId());
+        pd.setUsername(u.getUsername());
+        pd.setPassword(u.getPassword());
 
-        return ud;
+        return pd;
     }
 
 }
