@@ -5,13 +5,18 @@
  */
 package br.com.louvemos.api.role;
 
-import br.com.louvemos.api.person.*;
 import br.com.louvemos.api.base.BaseEntity;
+import br.com.louvemos.api.roleperson.RolePerson;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +39,9 @@ public class Role extends BaseEntity {
 
     @Column(name = "name", columnDefinition = "text", nullable = false)
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
+    private Set<RolePerson> rolePersons = new HashSet<>();
 
     public Role(Long id) {
         this.id = id;
