@@ -4,6 +4,8 @@ BEGIN;
 CREATE TABLE role
 (
     id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
     name text not null,
     CONSTRAINT role_pkey PRIMARY KEY (id)
 );
@@ -21,9 +23,11 @@ ALTER SEQUENCE seq_role OWNER TO lvms;
 CREATE TABLE role_person
 (
     id bigint NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
     role_id bigint not null,
     person_id bigint not null,
-    CONSTRAINT role_person_pkey PRIMARY KEY (id),
+    ADD CONSTRAINT role_person_pkey PRIMARY KEY (id),
     CONSTRAINT fk_person_id FOREIGN KEY (person_id)
       REFERENCES public.person (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
