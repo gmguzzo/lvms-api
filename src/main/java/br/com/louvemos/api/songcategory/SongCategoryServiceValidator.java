@@ -12,8 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SongCategoryServiceValidator {
 
-    public void validatePersist(SongCategory c) throws LvmsException {
-        validateNull(c);
+    public void validatePersist(SongCategory sc) throws LvmsException {
+        validateNull(sc);
+
+        validateSong(sc);
+        validateCategory(sc);
     }
 
     public void validateSongCategoryFound(SongCategory c) throws LvmsException {
@@ -27,6 +30,18 @@ public class SongCategoryServiceValidator {
      */
     private void validateNull(SongCategory c) throws LvmsException {
         if (c == null) {
+            throw new LvmsException(LvmsCodesEnum.CATEGORY_NULL);
+        }
+    }
+
+    private void validateSong(SongCategory sc) throws LvmsException {
+        if (sc.getSong() == null) {
+            throw new LvmsException(LvmsCodesEnum.SONG_NULL);
+        }
+    }
+
+    private void validateCategory(SongCategory sc) throws LvmsException {
+        if (sc.getCategory() == null) {
             throw new LvmsException(LvmsCodesEnum.CATEGORY_NULL);
         }
     }

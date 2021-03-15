@@ -11,18 +11,22 @@ public class SongCategoryControllerValidator {
     void validateCreate(BaseDTO bdIn) throws LvmsException {
         validateBaseDTO(bdIn);
 
-        SongCategoryDTO s = bdIn.getSongCategory();
+        SongCategoryDTO sc = bdIn.getSongCategory();
 
-        validateSongCategory(s);
+        validateSongCategory(sc);
+        validateSong(sc);
+        validateCategory(sc);
     }
 
     public void validateUpdate(Long id, BaseDTO bdIn) throws LvmsException {
         validateId(id);
         validateBaseDTO(bdIn);
 
-        SongCategoryDTO c = bdIn.getSongCategory();
+        SongCategoryDTO sc = bdIn.getSongCategory();
 
-        validateSongCategory(c);
+        validateSongCategory(sc);
+        validateSong(sc);
+        validateCategory(sc);
     }
 
     public void validateDelete(Long id) throws LvmsException {
@@ -43,6 +47,18 @@ public class SongCategoryControllerValidator {
 
     private void validateSongCategory(SongCategoryDTO c) throws LvmsException {
         if (c == null) {
+            throw new LvmsException(LvmsCodesEnum.CATEGORY_NULL);
+        }
+    }
+
+    private void validateSong(SongCategoryDTO sc) throws LvmsException {
+        if (sc.getSong() == null) {
+            throw new LvmsException(LvmsCodesEnum.SONG_NULL);
+        }
+    }
+
+    private void validateCategory(SongCategoryDTO sc) throws LvmsException {
+        if (sc.getCategory() == null) {
             throw new LvmsException(LvmsCodesEnum.CATEGORY_NULL);
         }
     }

@@ -24,12 +24,25 @@ public enum LvmsCodesEnum {
     CHORD_SYMBOL_INVALID(HttpStatus.BAD_REQUEST, 1006L, "chord.symbol.invalid"),
     
     SONG_NULL(HttpStatus.BAD_REQUEST, 2001L, "song.null"),
+    SONG_TONE_INVALID(HttpStatus.BAD_REQUEST, 2002L, "song.tone.invalid"),
+    SONG_STATUS_INVALID(HttpStatus.BAD_REQUEST, 2003L, "song.status.invalid"), 
+    SONG_LYRIC_INVALID(HttpStatus.BAD_REQUEST, 2004L, "song.lyric.invalid"), 
+    SONG_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 2005L, "song.description.invalid"), 
+    SONG_TITLE_INVALID(HttpStatus.BAD_REQUEST, 2006L, "song.title.invalid"), 
     
     ALBUM_NULL(HttpStatus.BAD_REQUEST, 3001L, "album.null"),
+    ALBUM_NAME_INVALID(HttpStatus.BAD_REQUEST, 3002L, "album.name.invalid"),
+    ALBUM_GENRE_INVALID(HttpStatus.BAD_REQUEST, 3003L, "album.genre.invalid"),
+    ALBUM_DEBUT_INVALID(HttpStatus.BAD_REQUEST, 3004L, "album.debut.invalid"),
     
     ARTIST_NULL(HttpStatus.BAD_REQUEST, 4001L, "artist.null"),
+    ARTIST_NAME_INVALID(HttpStatus.BAD_REQUEST, 4002L, "artist.name_.invalid"),
+    ARTIST_GENRE_INVALID(HttpStatus.BAD_REQUEST, 4003L, "artist.genre.invalid"),
+    ARTIST_SINCE_INVALID(HttpStatus.BAD_REQUEST, 4004L, "artist.since.invalid"),
     
-    CATEGORY_NULL(HttpStatus.BAD_REQUEST, 5001L, "category.null");
+    CATEGORY_NULL(HttpStatus.BAD_REQUEST, 5001L, "category.null"),
+    CATEGORY_NAME_INVALID(HttpStatus.BAD_REQUEST, 5002L, "category.name.invalid"),
+    CATEGORY_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 5003L, "category.description.invalid");
 
     private Long code;
     private String key;

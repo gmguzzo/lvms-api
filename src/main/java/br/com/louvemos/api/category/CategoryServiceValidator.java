@@ -7,6 +7,7 @@ package br.com.louvemos.api.category;
  */
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.base.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,6 +29,18 @@ public class CategoryServiceValidator {
     private void validateNull(Category c) throws LvmsException {
         if (c == null) {
             throw new LvmsException(LvmsCodesEnum.CATEGORY_NULL);
+        }
+    }
+    
+    private void validateCategoryName(CategoryDTO cd) throws LvmsException {
+        if (StringUtils.isBlank(cd.getCategoryName())) {
+            throw new LvmsException(LvmsCodesEnum.CATEGORY_NAME_INVALID);
+        }
+    }
+
+    private void validateDescription(CategoryDTO cd) throws LvmsException {
+        if (cd.getDescription() != null && StringUtils.isBlank(cd.getDescription())) {
+            throw new LvmsException(LvmsCodesEnum.CATEGORY_DESCRIPTION_INVALID);
         }
     }
 
