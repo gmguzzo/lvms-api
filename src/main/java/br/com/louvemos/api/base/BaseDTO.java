@@ -5,6 +5,8 @@
  */
 package br.com.louvemos.api.base;
 
+import br.com.louvemos.api.setlist.SetlistDTO;
+import br.com.louvemos.api.songsetlist.SongSetlistDTO;
 import br.com.louvemos.api.person.PersonDTO;
 import br.com.louvemos.api.songcategory.SongCategoryDTO;
 import br.com.louvemos.api.category.CategoryDTO;
@@ -44,5 +46,8 @@ public class BaseDTO implements Serializable {
     private CategoryDTO category;
     private SongCategoryDTO songCategory;
     private PersonDTO person;
+    private SetlistDTO setlist;
+    private List<SetlistDTO> setlists;
+    private SongSetlistDTO songSetlist;
 
 }

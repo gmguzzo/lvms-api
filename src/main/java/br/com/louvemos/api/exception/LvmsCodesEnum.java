@@ -50,7 +50,12 @@ public enum LvmsCodesEnum {
     PERSON_USERNAME_INVALID(HttpStatus.BAD_REQUEST, 6002L, "person.username.invalid"),
     PERSON_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, 6003L, "person.password.invalid"),
     
-    ROLE_NULL(HttpStatus.BAD_REQUEST, 7001L, "role.null");
+    ROLE_NULL(HttpStatus.BAD_REQUEST, 7001L, "role.null"),
+    
+    SETLIST_NULL(HttpStatus.BAD_REQUEST, 8001L, "setlist.null"),
+    SETLIST_PUBLIC_INVALID(HttpStatus.BAD_REQUEST, 8002L, "setlist.public.invalid"),
+    SETLIST_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 8003L, "setlist.description.invalid"),
+    SETLIST_NAME_INVALID(HttpStatus.BAD_REQUEST, 8004L, "setlist.name.invalid");
 
     private Long code;
     private String key;
