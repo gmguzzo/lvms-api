@@ -6,6 +6,7 @@
 package br.com.louvemos.api.setlist;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import br.com.louvemos.api.person.PersonDTO;
 import br.com.louvemos.api.song.SongDTO;
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +31,7 @@ public class SetlistDTO implements Serializable {
     private String description;
     private Boolean isPublic;
     private List<SongDTO> songs;
+    private PersonDTO person;
 
     public SetlistDTO(Long id) {
         this.id = id;

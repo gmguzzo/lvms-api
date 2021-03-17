@@ -5,11 +5,11 @@ package br.com.louvemos.api.setlist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.song.*;
+import br.com.louvemos.api.person.*;
 import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songsetlist.SongSetlistService;
 import java.util.LinkedHashMap;
@@ -31,6 +31,9 @@ public class SetlistService {
 
     @Autowired
     private SongService songService;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private SongSetlistService songSetlistService;
@@ -56,6 +59,7 @@ public class SetlistService {
 
     public List<Setlist> list(
             List<Long> ids,
+            List<Long> pIds,
             String q,
             List<String> names,
             Integer firstResult,
@@ -73,12 +77,17 @@ public class SetlistService {
                     }
                 });
 
-        List<Setlist> cList = setlistRepository.list(ids, q, names, firstResult, maxResults, sortWithDbKeys);
+        List<Setlist> cList = setlistRepository.list(ids, pIds, q, names, firstResult, maxResults, sortWithDbKeys);
 
         return cList;
     }
 
-    public Setlist create(Setlist setlist, Album album, List<Song> songs) throws LvmsException {
+    public Setlist create(Setlist setlist, Person p, List<Song> songs) throws LvmsException {
+        if (p != null) {
+            Person pPersist = personService.load(p.getId(), null);
+            setlist.setPerson(pPersist);
+        }
+
         setlist.setUpTimestamps();
 
         setlistServiceValidator.validatePersist(setlist);

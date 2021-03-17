@@ -30,7 +30,6 @@ public class SongControllerValidator {
         SongDTO sd = bdIn.getSong();
 
         validateSong(sd);
-        validateAlbum(sd);
         validateTitle(sd);
         validateDescription(sd);
         validateLyric(sd);

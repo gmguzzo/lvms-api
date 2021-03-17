@@ -28,15 +28,17 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
 
     public List<Setlist> list(
             List<Long> ids,
+            List<Long> pIds,
             String q,
             List<String> names,
             Integer firstResult,
             Integer maxResults,
             LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
-        String queryStrBase = "SELECT ss.*\n"
+        String queryStrBase = "SELECT s.*\n"
                 + "FROM song_setlist ss \n"
                 + "JOIN setlist s ON ss.setlist_id = s.id\n"
+                + "JOIN person p ON s.person_id = p.id\n"
                 + "JOIN song sg ON ss.song_id = sg.id\n";
 
         List<String> filterStrList = new ArrayList();
@@ -44,14 +46,18 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
         if (ids != null && !ids.isEmpty()) {
             filterStrList.add("(s.id IN (:ids))");
         }
-        
+
+        if (pIds != null && !pIds.isEmpty()) {
+            filterStrList.add("(p.id IN (:pIds))");
+        }
+
         if (names != null && !names.isEmpty()) {
             filterStrList.add("(s.name IN (:names))");
         }
 
         if (!StringUtils.isBlank(q)) {
-            filterStrList.add("(s.name ilike (:q)"
-                    + "OR s.description ilike (:q)"
+            filterStrList.add("(s.name ilike (:q)\n"
+                    + "OR s.description ilike (:q)\n"
                     + "OR sg.title ilike (:q))");
         }
 
@@ -84,6 +90,9 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
 
         if (ids != null && !ids.isEmpty()) {
             query.setParameterList("ids", ids);
+        }
+        if (pIds != null && !pIds.isEmpty()) {
+            query.setParameterList("pIds", pIds);
         }
         if (names != null && !names.isEmpty()) {
             query.setParameterList("names", names);

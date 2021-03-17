@@ -5,12 +5,14 @@
  */
 package br.com.louvemos.api.setlist;
 
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.ControllerUtils;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.person.*;
 import br.com.louvemos.api.song.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,6 +20,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,13 +51,17 @@ public class SetlistController extends BaseController {
     private SongConverter songConverter;
 
     @Autowired
-    private SongService songService;
+    private PersonConverter personConverter;
+
+    @Autowired
+    private PersonService personService;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public BaseDTO list(
             @RequestParam(required = false, value = "ids") String ids,
+            @RequestParam(required = false, value = "personIds") String pIds,
             @RequestParam(required = false, value = "q") String q,
             @RequestParam(required = false, value = "names") String names,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
@@ -63,16 +70,24 @@ public class SetlistController extends BaseController {
     ) throws LvmsException {
 
         List<Long> idList = ControllerUtils.parseCSVToLongList(ids);
+        List<Long> pIdList = ControllerUtils.parseCSVToLongList(pIds);
         List<String> nameList = ControllerUtils.parseCSVToStringList(names);
 
         firstResult = ControllerUtils.adjustFirstResult(firstResult);
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Setlist> list = setlistService.list(idList, q, nameList, firstResult, maxResults, sortMap);
+        List<Setlist> list = setlistService.list(idList, pIdList, q, nameList, firstResult, maxResults, sortMap);
 
         List<SetlistDTO> sdList = new ArrayList<>();
         for (Setlist s : list) {
+            if (!s.isPublic()) {
+                MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                Person pPersist = personService.load(null, authDetails.getUsername());
+                if (!s.getPerson().getUsername().equals(pPersist.getUsername())) {
+                    continue;
+                }
+            }
             SetlistDTO sd = setlistConverter.toDTO(s);
             sdList.add(sd);
         }
@@ -96,6 +111,10 @@ public class SetlistController extends BaseController {
 
         // Convert
         Setlist s = setlistConverter.toModel(null, bdIn.getSetlist());
+        Person p = null;
+        if (bdIn.getSetlist().getPerson() != null) {
+            p = personConverter.toModel(bdIn.getSetlist().getPerson().getId(), null);
+        }
 
         List<Song> sList = new ArrayList<>();
         if (bdIn.getSetlist().getSongs() != null && !bdIn.getSetlist().getSongs().isEmpty()) {
@@ -105,7 +124,7 @@ public class SetlistController extends BaseController {
         }
 
         // Create
-        Setlist sPersist = setlistService.create(s, sList);
+        Setlist sPersist = setlistService.create(s, p, sList);
 
         // Embed
         BaseDTO bdOut = new BaseDTO();

@@ -61,7 +61,7 @@ public class SetlistControllerValidator {
     }
 
     private void validateDescription(SetlistDTO s) throws LvmsException {
-        if (s.getDescription() != null) {
+        if (s.getDescription() != null && StringUtils.isBlank(s.getDescription())) {
             throw new LvmsException(LvmsCodesEnum.SETLIST_DESCRIPTION_INVALID);
         }
     }

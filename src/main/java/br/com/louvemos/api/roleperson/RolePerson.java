@@ -29,11 +29,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@SequenceGenerator(sequenceName = "SEQ_ROLE", name = "SEQ_ROLE", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(sequenceName = "SEQ_ROLE_PERSON", name = "SEQ_ROLE_PERSON", allocationSize = 1, initialValue = 1)
 public class RolePerson extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROLE")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROLE_PERSON")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
