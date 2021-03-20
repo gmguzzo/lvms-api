@@ -7,6 +7,7 @@ package br.com.louvemos.api.song;
 
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.album.Album;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,12 +21,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+
+import br.com.louvemos.api.category.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * @author gmguzzo
  */
 @Getter
@@ -47,7 +49,7 @@ public class Song extends BaseEntity {
 
     @Column(name = "lyric", columnDefinition = "text", nullable = false)
     private String lyric;
-    
+
     @Column(name = "tone", columnDefinition = "text", nullable = false)
     private String tone;
 
@@ -57,7 +59,10 @@ public class Song extends BaseEntity {
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_id"))
     private Album album;
-    
+
+    @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private List<Category> categories;
+
     public Song(Long id) {
         this.id = id;
     }

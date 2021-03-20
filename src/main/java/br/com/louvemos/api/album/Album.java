@@ -29,11 +29,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@SequenceGenerator(sequenceName = "SEQ_ARTIST", name = "SEQ_ARTIST", allocationSize = 1, initialValue = 1)
+@SequenceGenerator(sequenceName = "SEQ_ALBUM", name = "SEQ_ALBUM", allocationSize = 1, initialValue = 1)
 public class Album extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ARTIST")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ALBUM")
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -20,9 +20,11 @@ import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.exception.LvmsException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,7 +38,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- *
  * @author gmguzzo
  */
 @Controller
@@ -100,6 +101,15 @@ public class SongController extends BaseController {
             SongDTO sd = songConverter.toDTO(s);
             sd.setAlbum(ad);
             sdList.add(sd);
+
+            if (s.getCategories() != null && !s.getCategories().isEmpty()) {
+                List<CategoryDTO> cdList = new ArrayList<>();
+                for (Category c : s.getCategories()) {
+                    cdList.add(categoryConverter.toDTO(c));
+                }
+
+                sd.setCategories(cdList);
+            }
         }
 
         BaseDTO bd = new BaseDTO();

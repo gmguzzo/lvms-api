@@ -38,8 +38,7 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
         String queryStrBase = "SELECT s.*\n"
                 + "FROM song_setlist ss \n"
                 + "JOIN setlist s ON ss.setlist_id = s.id\n"
-                + "JOIN person p ON s.person_id = p.id\n"
-                + "JOIN song sg ON ss.song_id = sg.id\n";
+                + "JOIN person p ON s.person_id = p.id\n";
 
         List<String> filterStrList = new ArrayList();
 
@@ -57,8 +56,7 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
 
         if (!StringUtils.isBlank(q)) {
             filterStrList.add("(s.name ilike (:q)\n"
-                    + "OR s.description ilike (:q)\n"
-                    + "OR sg.title ilike (:q))");
+                    + "OR s.description ilike (:q)\n");
         }
 
         // Build final query string
