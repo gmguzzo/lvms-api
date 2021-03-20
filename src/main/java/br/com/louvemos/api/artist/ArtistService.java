@@ -6,11 +6,16 @@ package br.com.louvemos.api.artist;
  * and open the template in the editor.
  */
 
+import br.com.louvemos.api.base.ServiceUtils;
+import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -45,29 +50,28 @@ public class ArtistService {
         }
     }
 
-    //    public List<Artist> list(
-//            String qSymbol,
-//            List<Long> cIdList,
-//            List<String> symbolList,
-//            Integer firstResult,
-//            Integer maxResults,
-//            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
-//
-//        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
-//                sortMap,
-//                "c.id",
-//                SortDirectionEnum.desc,
-//                (apiKey, apiValue) -> {
-//                    switch (apiKey.toLowerCase()) {
-//                        default:
-//                            return "";
-//                    }
-//                });
-//
-//        List<Artist> cList = artistRepository.list(qSymbol, cIdList, symbolList, firstResult, maxResults, sortWithDbKeys);
-//
-//        return cList;
-//    }
+    public List<Artist> list(
+            String q,
+            List<Long> aIdList,
+            List<String> names,
+            Integer firstResult,
+            Integer maxResults,
+            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+
+        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
+                sortMap,
+                "a.id",
+                SortDirectionEnum.desc,
+                (apiKey, apiValue) -> {
+                    switch (apiKey.toLowerCase()) {
+                        default:
+                            return "";
+                    }
+                });
+
+        return artistRepository.list(q, aIdList, names, firstResult, maxResults, sortWithDbKeys);
+    }
+
     public Artist create(Artist artist) throws LvmsException {
         artist.setUpTimestamps();
 

@@ -55,7 +55,7 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
 
         if (!StringUtils.isBlank(q)) {
             filterStrList.add("(s.name ilike (:q)\n"
-                    + "OR s.description ilike (:q)\n");
+                    + "OR s.description ilike (:q))\n");
         }
 
         // Build final query string

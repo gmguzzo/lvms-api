@@ -5,24 +5,24 @@
  */
 package br.com.louvemos.api.base;
 
-import br.com.louvemos.api.setlist.SetlistDTO;
-import br.com.louvemos.api.songsetlist.SongSetlistDTO;
-import br.com.louvemos.api.person.PersonDTO;
-import br.com.louvemos.api.songcategory.SongCategoryDTO;
-import br.com.louvemos.api.category.CategoryDTO;
-import br.com.louvemos.api.chord.ChordDTO;
-import br.com.louvemos.api.song.SongDTO;
 import br.com.louvemos.api.album.AlbumDTO;
 import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.category.CategoryDTO;
+import br.com.louvemos.api.chord.ChordDTO;
+import br.com.louvemos.api.person.PersonDTO;
+import br.com.louvemos.api.setlist.SetlistDTO;
+import br.com.louvemos.api.song.SongDTO;
+import br.com.louvemos.api.songcategory.SongCategoryDTO;
+import br.com.louvemos.api.songsetlist.SongSetlistDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.io.Serializable;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
- *
  * @author gmguzzo
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,6 +43,7 @@ public class BaseDTO implements Serializable {
     private SongDTO song;
     private AlbumDTO album;
     private ArtistDTO artist;
+    private List<ArtistDTO> artists;
     private CategoryDTO category;
     private SongCategoryDTO songCategory;
     private PersonDTO person;

@@ -36,7 +36,7 @@ public class Artist extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ARTIST")
     private Long id;
 
-    @OneToMany(mappedBy = "artist", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "artist", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Album> albums;
 
     @Column(name = "artist_name", nullable = false)
