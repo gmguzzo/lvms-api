@@ -7,20 +7,18 @@ package br.com.louvemos.api.album;
 
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistConverter;
-import br.com.louvemos.api.base.BaseController;
-import br.com.louvemos.api.base.BaseDTO;
-import br.com.louvemos.api.base.SerializationUtils;
+import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  *
@@ -41,6 +39,43 @@ public class AlbumController extends BaseController {
 
     @Autowired
     private ArtistConverter artistConverter;
+
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO list(
+            @RequestParam(required = false, value = "ids") String ids,
+            @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "names") String names,
+            @RequestParam(required = false, value = "firstResult") Integer firstResult,
+            @RequestParam(required = false, value = "maxResults") Integer maxResults,
+            @RequestParam(required = false, value = "sort") String sort
+    ) throws LvmsException {
+
+        List<Long> idList = ControllerUtils.parseCSVToLongList(ids);
+        List<String> nameList = ControllerUtils.parseCSVToStringList(names);
+
+        firstResult = ControllerUtils.adjustFirstResult(firstResult);
+        maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
+        LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
+
+        List<Album> list = albumService.list(q, idList, nameList, firstResult, maxResults, sortMap);
+
+        List<AlbumDTO> adList = new ArrayList<>();
+        if (list != null && !list.isEmpty()) {
+            for (Album a : list) {
+                AlbumDTO ard = albumConverter.toDTO(a);
+                ArtistDTO art = artistConverter.toDTO(a.getArtist());
+                ard.setArtist(art);
+                adList.add(ard);
+            }
+        }
+
+        BaseDTO bd = new BaseDTO();
+        bd.setAlbums(adList);
+
+        return bd;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)

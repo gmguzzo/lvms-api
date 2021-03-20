@@ -9,11 +9,16 @@ package br.com.louvemos.api.album;
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistService;
 import br.com.louvemos.api.artist.ArtistServiceValidator;
+import br.com.louvemos.api.base.ServiceUtils;
+import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -54,29 +59,28 @@ public class AlbumService {
         }
     }
 
-    //    public List<Album> list(
-//            String qSymbol,
-//            List<Long> cIdList,
-//            List<String> symbolList,
-//            Integer firstResult,
-//            Integer maxResults,
-//            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
-//
-//        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
-//                sortMap,
-//                "c.id",
-//                SortDirectionEnum.desc,
-//                (apiKey, apiValue) -> {
-//                    switch (apiKey.toLowerCase()) {
-//                        default:
-//                            return "";
-//                    }
-//                });
-//
-//        List<Album> cList = albumRepository.list(qSymbol, cIdList, symbolList, firstResult, maxResults, sortWithDbKeys);
-//
-//        return cList;
-//    }
+    public List<Album> list(
+            String q,
+            List<Long> aIdList,
+            List<String> names,
+            Integer firstResult,
+            Integer maxResults,
+            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+
+        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
+                sortMap,
+                "a.id",
+                SortDirectionEnum.desc,
+                (apiKey, apiValue) -> {
+                    switch (apiKey.toLowerCase()) {
+                        default:
+                            return "";
+                    }
+                });
+
+        return albumRepository.list(q, aIdList, names, firstResult, maxResults, sortWithDbKeys);
+    }
+
     public Album create(Album album, Artist artist) throws LvmsException {
         Artist aPersist = artistService.load(artist.getId(), artist.getArtistName());
         if (aPersist == null) {
