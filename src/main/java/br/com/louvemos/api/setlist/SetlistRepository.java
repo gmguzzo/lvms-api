@@ -36,8 +36,7 @@ public class SetlistRepository extends BaseRepositoryHibernate<Setlist> {
             LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         String queryStrBase = "SELECT s.*\n"
-                + "FROM song_setlist ss \n"
-                + "JOIN setlist s ON ss.setlist_id = s.id\n"
+                + "FROM setlist s \n"
                 + "JOIN person p ON s.person_id = p.id\n";
 
         List<String> filterStrList = new ArrayList();
