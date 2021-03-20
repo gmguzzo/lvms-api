@@ -77,10 +77,12 @@ public class PersonController extends BaseController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public BaseDTO self() throws LvmsException {
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+        MyUserDetails authDetails = null;
+        try {
+            authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (ClassCastException | NullPointerException e) {
             throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
         }
-        MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Person pPersist = personService.load(null, authDetails.getUsername());
 
         BaseDTO bd = new BaseDTO();
