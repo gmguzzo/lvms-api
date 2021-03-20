@@ -5,13 +5,8 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import br.com.louvemos.api.artist.Artist;
+
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.base.StringUtils;
 import br.com.louvemos.api.exception.LvmsException;
@@ -19,6 +14,10 @@ import com.google.common.base.Joiner;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -70,13 +69,13 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
         }
 
         if (emails != null && !emails.isEmpty()) {
-            filterStrList.add("(p.last_name IN (:lastNames))");
+            filterStrList.add("(p.last_name IN (:emails))");
         }
 
         if (!StringUtils.isBlank(q)) {
             filterStrList.add("(p.first_name ilike (:q)\n"
-                    +"OR p.last_name ilike (:q)\n"
-                    +"OR p.email ilike (:q))");
+                    + "OR p.last_name ilike (:q)\n"
+                    + "OR p.email ilike (:q))");
         }
 
         // Build final query string
@@ -104,13 +103,19 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
         // Build query
         Query query = getCurrentSession().createNativeQuery(
                 queryStrBuilder.toString())
-                .addEntity(Artist.class);
+                .addEntity(Person.class);
 
         if (pIdList != null && !pIdList.isEmpty()) {
             query.setParameterList("pIdList", pIdList);
         }
         if (firstNames != null && !firstNames.isEmpty()) {
-            query.setParameterList("names", firstNames);
+            query.setParameterList("firstNames", firstNames);
+        }
+        if (lastNames != null && !lastNames.isEmpty()) {
+            query.setParameterList("lastNames", lastNames);
+        }
+        if (emails != null && !emails.isEmpty()) {
+            query.setParameterList("emails", emails);
         }
 
         if (!StringUtils.isBlank(q)) {
