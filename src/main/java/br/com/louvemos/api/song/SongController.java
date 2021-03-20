@@ -5,37 +5,27 @@
  */
 package br.com.louvemos.api.song;
 
-import br.com.louvemos.api.category.Category;
-import br.com.louvemos.api.category.CategoryDTO;
-import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumConverter;
 import br.com.louvemos.api.album.AlbumDTO;
+import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistConverter;
 import br.com.louvemos.api.artist.ArtistDTO;
-import br.com.louvemos.api.base.BaseController;
-import br.com.louvemos.api.base.BaseDTO;
-import br.com.louvemos.api.base.ControllerUtils;
-import br.com.louvemos.api.base.SerializationUtils;
-import br.com.louvemos.api.base.SortDirectionEnum;
+import br.com.louvemos.api.base.*;
+import br.com.louvemos.api.category.Category;
 import br.com.louvemos.api.category.CategoryConverter;
+import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.exception.LvmsException;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import br.com.louvemos.api.songcategory.SongCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author gmguzzo
@@ -102,10 +92,10 @@ public class SongController extends BaseController {
             sd.setAlbum(ad);
             sdList.add(sd);
 
-            if (s.getCategories() != null && !s.getCategories().isEmpty()) {
+            if (s.getSongCategories() != null && !s.getSongCategories().isEmpty()) {
                 List<CategoryDTO> cdList = new ArrayList<>();
-                for (Category c : s.getCategories()) {
-                    cdList.add(categoryConverter.toDTO(c));
+                for (SongCategory sc : s.getSongCategories()) {
+                    cdList.add(categoryConverter.toDTO(sc.getCategory()));
                 }
 
                 sd.setCategories(cdList);

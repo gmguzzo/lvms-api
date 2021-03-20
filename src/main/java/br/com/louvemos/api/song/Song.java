@@ -5,27 +5,15 @@
  */
 package br.com.louvemos.api.song;
 
-import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.album.Album;
-
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-
-import br.com.louvemos.api.category.Category;
+import br.com.louvemos.api.base.BaseEntity;
+import br.com.louvemos.api.songcategory.SongCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author gmguzzo
@@ -61,7 +49,7 @@ public class Song extends BaseEntity {
     private Album album;
 
     @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    private List<Category> categories;
+    private List<SongCategory> songCategories;
 
     public Song(Long id) {
         this.id = id;
