@@ -5,6 +5,7 @@ package br.com.louvemos.api.album;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistService;
 import br.com.louvemos.api.artist.ArtistServiceValidator;
@@ -31,7 +32,7 @@ public class AlbumService {
     private AlbumRepository albumRepository;
 
     public Album update(Album a) throws LvmsException {
-        Album aPersist = load(a.getId());
+        Album aPersist = load(a.getId(), null);
         albumServiceValidator.validateAlbumFound(aPersist);
 
         aPersist.setAlbumName(a.getAlbumName());
@@ -45,11 +46,15 @@ public class AlbumService {
 
     }
 
-    public Album load(Long id) {
-        return albumRepository.loadById(id);
+    public Album load(Long id, String name) {
+        if (id != null) {
+            return albumRepository.loadById(id);
+        } else {
+            return albumRepository.loadByName(name);
+        }
     }
 
-//    public List<Album> list(
+    //    public List<Album> list(
 //            String qSymbol,
 //            List<Long> cIdList,
 //            List<String> symbolList,
@@ -74,8 +79,8 @@ public class AlbumService {
 //    }
     public Album create(Album album, Artist artist) throws LvmsException {
         Artist aPersist;
-        if (artist.getId() != null) {
-            aPersist = artistService.load(album.getId());
+        if (artist.getId() != null || artist.getArtistName() != null) {
+            aPersist = artistService.load(artist.getId(), artist.getArtistName());
             artistServiceValidator.validateArtistFound(aPersist);
         } else {
             aPersist = artistService.create(artist);

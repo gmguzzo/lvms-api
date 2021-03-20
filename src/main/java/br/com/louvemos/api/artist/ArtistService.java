@@ -5,6 +5,7 @@ package br.com.louvemos.api.artist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ArtistService {
     private ArtistRepository artistRepository;
 
     public Artist update(Artist a) throws LvmsException {
-        Artist aPersist = load(a.getId());
+        Artist aPersist = load(a.getId(), null);
         artistServiceValidator.validateArtistFound(aPersist);
 
         aPersist.setArtistName(a.getArtistName());
@@ -36,11 +37,15 @@ public class ArtistService {
 
     }
 
-    public Artist load(Long id) {
-        return artistRepository.loadById(id);
+    public Artist load(Long id, String name) {
+        if (id != null) {
+            return artistRepository.loadById(id);
+        } else {
+            return artistRepository.loadByName(name);
+        }
     }
 
-//    public List<Artist> list(
+    //    public List<Artist> list(
 //            String qSymbol,
 //            List<Long> cIdList,
 //            List<String> symbolList,

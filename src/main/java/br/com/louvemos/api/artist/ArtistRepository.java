@@ -5,9 +5,14 @@ package br.com.louvemos.api.artist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
+import br.com.louvemos.api.role.Role;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional
@@ -18,6 +23,19 @@ public class ArtistRepository extends BaseRepositoryHibernate<Artist> {
         return Artist.class;
     }
 
+    public Artist loadByName(String name) {
+        String queryStr = "SELECT * from artist where artist_name = :name";
+        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(Artist.class);
+
+        query.setParameter("name", name);
+        List<Artist> list = query.list();
+
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        return list.get(0);
+    }
 //    public List<Song> list(
 //            String qSymbol,
 //            List<Long> cIdList,

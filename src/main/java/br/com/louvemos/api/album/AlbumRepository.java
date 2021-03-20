@@ -5,9 +5,13 @@ package br.com.louvemos.api.album;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional
@@ -16,6 +20,20 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
     @Override
     protected Class<Album> getEntityClass() {
         return Album.class;
+    }
+
+    public Album loadByName(String name) {
+        String queryStr = "SELECT * from album where album_name = :name";
+        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(Album.class);
+
+        query.setParameter("name", name);
+        List<Album> list = query.list();
+
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
+        return list.get(0);
     }
 
 //    public List<Song> list(

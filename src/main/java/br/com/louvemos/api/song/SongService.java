@@ -5,6 +5,7 @@ package br.com.louvemos.api.song;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.category.*;
 import br.com.louvemos.api.artist.*;
 import br.com.louvemos.api.album.Album;
@@ -14,8 +15,10 @@ import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.songcategory.*;
+
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -91,7 +94,7 @@ public class SongService {
     public Song create(Song song, Album album, Artist ar, List<Category> categories) throws LvmsException {
         Album aPersist;
         if (album.getId() != null) {
-            aPersist = albumService.load(album.getId());
+            aPersist = albumService.load(album.getId(), album.getAlbumName());
             albumServiceValidator.validateAlbumFound(aPersist);
         } else {
             aPersist = albumService.create(album, ar);
