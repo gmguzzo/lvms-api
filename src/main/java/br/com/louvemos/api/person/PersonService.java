@@ -5,7 +5,10 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.auth.PasswordUtils;
+import br.com.louvemos.api.base.ServiceUtils;
+import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.roleperson.RolePersonService;
@@ -13,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -31,11 +37,38 @@ public class PersonService {
         rolePersonService.create(r, p);
     }
 
+    public List<Person> list(
+            String q,
+            List<Long> pIdList,
+            List<String> firstNames,
+            List<String> lastNames,
+            List<String> emails,
+            Integer firstResult,
+            Integer maxResults,
+            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+
+        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
+                sortMap,
+                "a.id",
+                SortDirectionEnum.desc,
+                (apiKey, apiValue) -> {
+                    switch (apiKey.toLowerCase()) {
+                        default:
+                            return "";
+                    }
+                });
+
+        return personRepository.list(q, pIdList, firstNames, lastNames, emails, firstResult, maxResults, sortMap);
+    }
+
     public Person update(Person p) throws LvmsException {
         Person pPersist = load(p.getId(), null);
         personServiceValidator.validatePersonFound(pPersist);
 
         pPersist.setUsername(p.getUsername());
+        pPersist.setFirstName(p.getFirstName());
+        pPersist.setLastName(p.getLastName());
+        pPersist.setEmail(p.getEmail());
         pPersist.setPassword(PasswordUtils.encode(p.getPassword()));
 
         pPersist.setUpTimestamps();

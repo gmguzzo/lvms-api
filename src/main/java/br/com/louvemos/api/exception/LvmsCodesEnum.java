@@ -49,6 +49,9 @@ public enum LvmsCodesEnum {
     PERSON_NULL(HttpStatus.BAD_REQUEST, 6001L, "person.null"),
     PERSON_USERNAME_INVALID(HttpStatus.BAD_REQUEST, 6002L, "person.username.invalid"),
     PERSON_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, 6003L, "person.password.invalid"),
+    PERSON_FIRSTNAME_INVALID(HttpStatus.BAD_REQUEST, 6004L, "person.firstname.invalid"),
+    PERSON_LASTNAME_INVALID(HttpStatus.BAD_REQUEST, 6005L, "person.lastname.invalid"),
+    PERSON_EMAIL_INVALID(HttpStatus.BAD_REQUEST, 6006L, "person.email.invalid"),
     
     ROLE_NULL(HttpStatus.BAD_REQUEST, 7001L, "role.null"),
     

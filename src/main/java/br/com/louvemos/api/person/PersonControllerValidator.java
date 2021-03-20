@@ -1,9 +1,9 @@
 package br.com.louvemos.api.person;
 
-import br.com.louvemos.api.exception.LvmsCodesEnum;
-import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.StringUtils;
+import br.com.louvemos.api.exception.LvmsCodesEnum;
+import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +32,9 @@ public class PersonControllerValidator {
         validatePerson(pd);
         validateUsername(pd);
         validatePassword(pd);
+        validateFirstName(pd);
+        validateLastName(pd);
+        validateEmail(pd);
 
     }
 
@@ -77,6 +80,24 @@ public class PersonControllerValidator {
     private void validatePassword(PersonDTO pd) throws LvmsException {
         if (StringUtils.isBlank(pd.getPassword())) {
             throw new LvmsException(LvmsCodesEnum.PERSON_PASSWORD_INVALID);
+        }
+    }
+
+    private void validateFirstName(PersonDTO pd) throws LvmsException {
+        if (StringUtils.isBlank(pd.getFirstName())) {
+            throw new LvmsException(LvmsCodesEnum.PERSON_FIRSTNAME_INVALID);
+        }
+    }
+
+    private void validateLastName(PersonDTO pd) throws LvmsException {
+        if (StringUtils.isBlank(pd.getLastName())) {
+            throw new LvmsException(LvmsCodesEnum.PERSON_LASTNAME_INVALID);
+        }
+    }
+
+    private void validateEmail(PersonDTO pd) throws LvmsException {
+        if (StringUtils.isBlank(pd.getEmail())) {
+            throw new LvmsException(LvmsCodesEnum.PERSON_EMAIL_INVALID);
         }
     }
 

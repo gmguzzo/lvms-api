@@ -5,25 +5,25 @@
  */
 package br.com.louvemos.api.person;
 
-import br.com.louvemos.api.base.BaseController;
-import br.com.louvemos.api.base.BaseDTO;
-import br.com.louvemos.api.base.SerializationUtils;
+import br.com.louvemos.api.auth.MyUserDetails;
+import br.com.louvemos.api.base.*;
+import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.role.RoleConverter;
 import br.com.louvemos.api.role.Role;
+import br.com.louvemos.api.role.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
- *
  * @author gmguzzo
  */
 @Controller
@@ -41,6 +41,53 @@ public class PersonController extends BaseController {
 
     @Autowired
     private RoleConverter roleConverter;
+
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO list(
+            @RequestParam(required = false, value = "ids") String ids,
+            @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "firstNames") String firstNames,
+            @RequestParam(required = false, value = "lastNames") String lastNames,
+            @RequestParam(required = false, value = "emails") String emails,
+            @RequestParam(required = false, value = "firstResult") Integer firstResult,
+            @RequestParam(required = false, value = "maxResults") Integer maxResults,
+            @RequestParam(required = false, value = "sort") String sort
+    ) throws LvmsException {
+
+        List<Long> idList = ControllerUtils.parseCSVToLongList(ids);
+        List<String> firstNameList = ControllerUtils.parseCSVToStringList(firstNames);
+        List<String> lastNameList = ControllerUtils.parseCSVToStringList(lastNames);
+        List<String> emailList = ControllerUtils.parseCSVToStringList(emails);
+
+        firstResult = ControllerUtils.adjustFirstResult(firstResult);
+        maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
+        LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
+
+        List<Person> list = personService.list(q, idList, firstNameList, lastNameList, emailList, firstResult, maxResults, sortMap);
+
+        BaseDTO bd = new BaseDTO();
+        embedPersonOnBaseDTO(bd, list);
+
+        return bd;
+    }
+
+    @RequestMapping(value = "/self", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO self() throws LvmsException {
+        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
+        }
+        MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Person pPersist = personService.load(null, authDetails.getUsername());
+
+        BaseDTO bd = new BaseDTO();
+        embedPersonOnBaseDTO(bd, Arrays.asList(pPersist));
+
+        return bd;
+    }
 
     @RequestMapping(value = "{id}/assignrole", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -133,6 +180,16 @@ public class PersonController extends BaseController {
         bd.setMessage("Operação realizada com sucesso");
         return bd;
 
+    }
+
+    private void embedPersonOnBaseDTO(BaseDTO bd, List<Person> list) {
+        List<PersonDTO> pList = new ArrayList<>();
+        if (list != null && !list.isEmpty()) {
+            for (Person p : list) {
+                pList.add(personConverter.toDTO(p));
+            }
+        }
+        bd.setPersons(pList);
     }
 
 }

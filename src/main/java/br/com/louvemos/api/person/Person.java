@@ -43,6 +43,15 @@ public class Person extends BaseEntity {
     @Column(name = "password", columnDefinition = "text", nullable = false)
     private String password;
 
+    @Column(name = "first_name", columnDefinition = "text", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", columnDefinition = "text", nullable = false)
+    private String lastName;
+
+    @Column(name = "email", columnDefinition = "text", nullable = false)
+    private String email;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
     private Set<RolePerson> rolePersons = new HashSet<>();
 
