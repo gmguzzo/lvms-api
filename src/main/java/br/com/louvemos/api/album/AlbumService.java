@@ -78,13 +78,12 @@ public class AlbumService {
 //        return cList;
 //    }
     public Album create(Album album, Artist artist) throws LvmsException {
-        Artist aPersist;
-        if (artist.getId() != null || artist.getArtistName() != null) {
-            aPersist = artistService.load(artist.getId(), artist.getArtistName());
-            artistServiceValidator.validateArtistFound(aPersist);
-        } else {
+        Artist aPersist = artistService.load(artist.getId(), artist.getArtistName());
+        if (aPersist == null) {
             aPersist = artistService.create(artist);
         }
+
+        artistServiceValidator.validateArtistFound(aPersist);
 
         album.setArtist(aPersist);
         album.setUpTimestamps();

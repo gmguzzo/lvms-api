@@ -78,7 +78,7 @@ public class SongControllerValidator {
     }
 
     private void validateDescription(SongDTO s) throws LvmsException {
-        if (s.getDescription() != null && StringUtils.isBlank(s.getLyric())) {
+        if (s.getDescription() != null && StringUtils.isBlank(s.getDescription())) {
             throw new LvmsException(LvmsCodesEnum.SONG_DESCRIPTION_INVALID);
         }
     }

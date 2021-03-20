@@ -6,23 +6,24 @@ package br.com.louvemos.api.song;
  * and open the template in the editor.
  */
 
-import br.com.louvemos.api.category.*;
-import br.com.louvemos.api.artist.*;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumService;
 import br.com.louvemos.api.album.AlbumServiceValidator;
+import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
+import br.com.louvemos.api.category.Category;
+import br.com.louvemos.api.category.CategoryService;
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.songcategory.*;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-
+import br.com.louvemos.api.songcategory.SongCategory;
+import br.com.louvemos.api.songcategory.SongCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -86,20 +87,15 @@ public class SongService {
                     }
                 });
 
-        List<Song> cList = songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
-
-        return cList;
+        return songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
     }
 
     public Song create(Song song, Album album, Artist ar, List<Category> categories) throws LvmsException {
-        Album aPersist;
-        if (album.getId() != null) {
-            aPersist = albumService.load(album.getId(), album.getAlbumName());
-            albumServiceValidator.validateAlbumFound(aPersist);
-        } else {
+        Album aPersist = albumService.load(album.getId(), album.getAlbumName());
+        if (aPersist == null) {
             aPersist = albumService.create(album, ar);
         }
-
+        albumServiceValidator.validateAlbumFound(aPersist);
         song.setAlbum(aPersist);
         song.setUpTimestamps();
 

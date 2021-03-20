@@ -22,7 +22,7 @@ public class ArtistServiceValidator {
 
     public void validateArtistFound(Artist a) throws LvmsException {
         if (a == null) {
-            throw new LvmsException(LvmsCodesEnum.ALBUM_NULL);
+            throw new LvmsException(LvmsCodesEnum.ARTIST_NULL);
         }
     }
 
