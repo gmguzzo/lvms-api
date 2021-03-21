@@ -110,8 +110,8 @@ public class PersonController extends BaseController {
 
         personControllerValidator.validateShare(bdIn);
 
-        Person pOwner = personConverter.toModel(null, bdIn.getPerson());
-        Person pTarget = personConverter.toModel(null, bdIn.getPerson().getPersonShare().getTargetPerson());
+        Person pOwner = personConverter.toModel(bdIn.getPerson().getId(), null);
+        Person pTarget = personConverter.toModel(bdIn.getPerson().getPersonShare().getTargetPerson().getId(), null );
         PersonShare personShare = personShareConverter.toModel(null, bdIn.getPerson().getPersonShare());
 
         PersonShare psPersist = personShareService.create(personShare, pOwner, pTarget);
@@ -121,7 +121,7 @@ public class PersonController extends BaseController {
         return bd;
     }
 
-    @RequestMapping(value = "{id}/unshare", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "unshare/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public BaseDTO unshare(

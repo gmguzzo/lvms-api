@@ -6,14 +6,12 @@ package br.com.louvemos.api.person;
  * and open the template in the editor.
  */
 
-import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.auth.PasswordUtils;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
-import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.roleperson.RolePersonService;
-import jdk.nashorn.internal.runtime.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,10 +81,11 @@ public class PersonService {
     public Person load(Long id, String username) {
         if (id != null) {
             return personRepository.loadById(id);
-        } else {
-            System.out.println("AQUI: " + username);
+        } else if (username != null) {
             return personRepository.loadByUsername(username);
         }
+
+        return null;
     }
 
     public Person create(Person person) throws LvmsException {
