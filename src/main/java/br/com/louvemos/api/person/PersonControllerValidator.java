@@ -1,11 +1,13 @@
 package br.com.louvemos.api.person;
 
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.StringUtils;
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +15,9 @@ public class PersonControllerValidator {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PersonService personService;
 
     public void validateAssignRole(Long id, BaseDTO bdIn) throws LvmsException {
         validateId(id);
@@ -111,4 +116,23 @@ public class PersonControllerValidator {
         }
     }
 
+    public void validateShare(BaseDTO bdIn) throws LvmsException {
+        validatePermissionShare(bdIn);
+    }
+
+    public void validateUnshare(BaseDTO bdIn) throws LvmsException {
+        validatePermissionShare(bdIn);
+    }
+
+    private void validatePermissionShare(BaseDTO bdIn) throws LvmsException {
+        if (bdIn == null || bdIn.getPersonShare() == null) {
+            throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
+        }
+
+        Person pPersist = personService.load(bdIn.getPersonShare().getOwnerPerson().getId(), null);
+        MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (pPersist == null || !pPersist.getUsername().equals(authDetails.getUsername())) {
+            throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
+        }
+    }
 }

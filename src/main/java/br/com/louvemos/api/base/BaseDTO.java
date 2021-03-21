@@ -10,6 +10,7 @@ import br.com.louvemos.api.artist.ArtistDTO;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.chord.ChordDTO;
 import br.com.louvemos.api.person.PersonDTO;
+import br.com.louvemos.api.personshare.PersonShareDTO;
 import br.com.louvemos.api.setlist.SetlistDTO;
 import br.com.louvemos.api.song.SongDTO;
 import br.com.louvemos.api.songcategory.SongCategoryDTO;
@@ -49,6 +50,7 @@ public class BaseDTO implements Serializable {
     private SongCategoryDTO songCategory;
     private PersonDTO person;
     private List<PersonDTO> persons;
+    private PersonShareDTO personShare;
     private SetlistDTO setlist;
     private List<SetlistDTO> setlists;
     private SongSetlistDTO songSetlist;

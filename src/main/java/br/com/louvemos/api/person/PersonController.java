@@ -9,6 +9,9 @@ import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.personshare.PersonShare;
+import br.com.louvemos.api.personshare.PersonShareConverter;
+import br.com.louvemos.api.personshare.PersonShareService;
 import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.role.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,12 @@ public class PersonController extends BaseController {
 
     @Autowired
     private RoleConverter roleConverter;
+
+    @Autowired
+    private PersonShareConverter personShareConverter;
+
+    @Autowired
+    private PersonShareService personShareService;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -86,8 +95,45 @@ public class PersonController extends BaseController {
         Person pPersist = personService.load(null, authDetails.getUsername());
 
         BaseDTO bd = new BaseDTO();
-        embedPersonOnBaseDTO(bd, Arrays.asList(pPersist));
+        embedSelfOnBaseDTO(bd, Arrays.asList(pPersist));
 
+        return bd;
+    }
+
+    @RequestMapping(value = "share", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO share(
+            @RequestBody String body
+    ) throws LvmsException {
+        BaseDTO bdIn = SerializationUtils.fromJson(body, BaseDTO.class);
+
+        personControllerValidator.validateShare(bdIn);
+
+        Person pOwner = personConverter.toModel(null, bdIn.getPerson());
+        Person pTarget = personConverter.toModel(null, bdIn.getPersonShare().getTargetPerson());
+        PersonShare personShare = personShareConverter.toModel(null, bdIn.getPersonShare());
+
+        PersonShare psPersist = personShareService.create(personShare, pOwner, pTarget);
+
+        BaseDTO bd = new BaseDTO();
+        bd.setMessage("Operação realizada com sucesso.");
+        return bd;
+    }
+
+    @RequestMapping(value = "{id}/unshare", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO unshare(
+            @PathVariable(value = "id") Long id
+    ) throws LvmsException {
+
+        personControllerValidator.validateDelete(id);
+
+        personShareService.delete(id);
+
+        BaseDTO bd = new BaseDTO();
+        bd.setMessage("Operação realizada com sucesso.");
         return bd;
     }
 

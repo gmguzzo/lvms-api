@@ -9,6 +9,7 @@ import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.person.PersonConverter;
+import br.com.louvemos.api.person.PersonDTO;
 import br.com.louvemos.api.person.PersonService;
 import br.com.louvemos.api.song.Song;
 import br.com.louvemos.api.song.SongConverter;
@@ -77,6 +78,8 @@ public class SetlistController extends BaseController {
             if (sd == null) {
                 continue;
             }
+            PersonDTO p = personConverter.toDTO(s.getPerson());
+            sd.setPerson(p);
 
             sdList.add(sd);
         }

@@ -34,7 +34,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final String[] permittedPaths = {"/v2/auth", "/", "/v2/persons/self"};
     private final String[] adminOnlyPOSTPUTDELETEPaths = {"/v2/**/**"};
-    private final String[] userPermittedPOSTPUTDELETEPaths = {"/v2/songs", "/v2/albums", "/v2/setlists", "/v2/songsetlists"};
+    private final String[] userPermittedPOSTPUTDELETEPaths = {"/v2/songs", "/v2/albums", "/v2/setlists", "/v2/songsetlists", "/v2/persons/share", "/v2/persons/unshare"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
