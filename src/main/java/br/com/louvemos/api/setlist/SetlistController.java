@@ -5,33 +5,25 @@
  */
 package br.com.louvemos.api.setlist;
 
-import br.com.louvemos.api.auth.MyUserDetails;
-import br.com.louvemos.api.base.BaseController;
-import br.com.louvemos.api.base.BaseDTO;
-import br.com.louvemos.api.base.ControllerUtils;
-import br.com.louvemos.api.base.SerializationUtils;
-import br.com.louvemos.api.base.SortDirectionEnum;
+import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.person.*;
-import br.com.louvemos.api.song.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonConverter;
+import br.com.louvemos.api.person.PersonService;
+import br.com.louvemos.api.song.Song;
+import br.com.louvemos.api.song.SongConverter;
+import br.com.louvemos.api.song.SongDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
- *
  * @author gmguzzo
  */
 @Controller
@@ -82,6 +74,10 @@ public class SetlistController extends BaseController {
         List<SetlistDTO> sdList = new ArrayList<>();
         for (Setlist s : list) {
             SetlistDTO sd = setlistConverter.toDTO(s);
+            if (sd == null) {
+                continue;
+            }
+
             sdList.add(sd);
         }
 

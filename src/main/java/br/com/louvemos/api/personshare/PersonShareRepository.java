@@ -35,9 +35,9 @@ public class PersonShareRepository extends BaseRepositoryHibernate<PersonShare> 
         String queryStr =
                 "SELECT * from person_share\n"
                         + "WHERE subject_type = :subjectType\n"
-                        + "AND subject = :subjectId\n"
+                        + "AND subject_id = :subjectId\n"
                         + "AND target_person_id = :pTargetId";
-        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(Person.class);
+        Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(PersonShare.class);
 
         query.setParameter("subjectType", subjectType.toString());
         query.setParameter("subjectId", subjectId);
