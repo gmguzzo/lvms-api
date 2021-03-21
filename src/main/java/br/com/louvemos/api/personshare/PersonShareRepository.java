@@ -39,9 +39,9 @@ public class PersonShareRepository extends BaseRepositoryHibernate<PersonShare> 
                         + "AND target_person_id = :pTargetId";
         Query query = getCurrentSession().createNativeQuery(queryStr).addEntity(Person.class);
 
-        query.setParameter("subject_type", subjectType.toString());
-        query.setParameter("subject_id", subjectId);
-        query.setParameter("target_person_id", pTargetId);
+        query.setParameter("subjectType", subjectType.toString());
+        query.setParameter("subjectId", subjectId);
+        query.setParameter("pTargetId", pTargetId);
         List<PersonShare> list = query.list();
 
         if (list == null || list.isEmpty()) {

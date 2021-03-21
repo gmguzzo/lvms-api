@@ -194,4 +194,14 @@ public class PersonController extends BaseController {
         bd.setPersons(pList);
     }
 
+    private void embedSelfOnBaseDTO(BaseDTO bd, List<Person> list) {
+        List<PersonDTO> pList = new ArrayList<>();
+        if (list != null && !list.isEmpty()) {
+            for (Person p : list) {
+                pList.add(personConverter.toDTO(p));
+            }
+        }
+        bd.setPerson(pList.get(0));
+    }
+
 }
