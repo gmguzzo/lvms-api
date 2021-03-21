@@ -7,22 +7,15 @@ package br.com.louvemos.api.setlist;
 
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.person.Person;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import br.com.louvemos.api.songsetlist.SongSetlist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.List;
+
 /**
- *
  * @author gmguzzo
  */
 @Getter
@@ -48,6 +41,9 @@ public class Setlist extends BaseEntity {
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name = "fk_person_id"))
     private Person person;
+
+    @OneToMany(mappedBy = "setlist", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private List<SongSetlist> songSetlists;
 
     public Setlist(Long id) {
         this.id = id;

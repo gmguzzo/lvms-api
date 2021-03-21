@@ -5,19 +5,23 @@ package br.com.louvemos.api.setlist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
-import br.com.louvemos.api.song.*;
-import br.com.louvemos.api.person.*;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonService;
+import br.com.louvemos.api.song.Song;
+import br.com.louvemos.api.song.SongService;
 import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songsetlist.SongSetlistService;
-import java.util.LinkedHashMap;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -106,7 +110,15 @@ public class SetlistService {
 
     public void delete(Long cId) throws LvmsException {
         Setlist c = setlistRepository.loadById(cId);
+
         setlistServiceValidator.validateSetlistFound(c);
+
+        List<SongSetlist> ssl = c.getSongSetlists();
+        if (ssl != null) {
+            for (SongSetlist ss : ssl) {
+                songSetlistService.delete(ss.getId());
+            }
+        }
 
         setlistRepository.delete(c);
     }

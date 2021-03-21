@@ -81,13 +81,6 @@ public class SetlistController extends BaseController {
 
         List<SetlistDTO> sdList = new ArrayList<>();
         for (Setlist s : list) {
-            if (!s.isPublic()) {
-                MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                Person pPersist = personService.load(null, authDetails.getUsername());
-                if (!s.getPerson().getUsername().equals(pPersist.getUsername())) {
-                    continue;
-                }
-            }
             SetlistDTO sd = setlistConverter.toDTO(s);
             sdList.add(sd);
         }

@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- *
  * @author gmguzzo
  */
 @EnableWebSecurity
@@ -33,19 +32,32 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    private final String[] permittedPaths = {"/v2/auth", "/", "/v2/persons/self"};
+    private final String[] adminOnlyPOSTPUTDELETEPaths = {"/v2/**/**"};
+    private final String[] userPermittedPOSTPUTDELETEPaths = {"/v2/songs", "/v2/albums", "/v2/setlists", "/v2/songsetlists"};
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/v2/auth", "/",  "/v2/persons/self")
+                .antMatchers(permittedPaths)
                 .permitAll()
-                .antMatchers(
-                        HttpMethod.POST,
-                        "/v2/**/**"
-                )
+                .antMatchers(HttpMethod.POST, adminOnlyPOSTPUTDELETEPaths)
                 .hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, adminOnlyPOSTPUTDELETEPaths)
+                .hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, adminOnlyPOSTPUTDELETEPaths)
+                .hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, userPermittedPOSTPUTDELETEPaths)
+                .hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, userPermittedPOSTPUTDELETEPaths)
+                .hasAuthority("USER")
+                .antMatchers(HttpMethod.GET)
+                .hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, userPermittedPOSTPUTDELETEPaths)
+                .hasAuthority("USER")
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -39,6 +39,8 @@ public class PersonConverter {
         PersonDTO pd = new PersonDTO();
         pd.setId(p.getId());
         pd.setUsername(p.getUsername());
+
+
         pd.setFirstName(p.getFirstName());
         pd.setLastName(p.getLastName());
         pd.setEmail(p.getEmail());
