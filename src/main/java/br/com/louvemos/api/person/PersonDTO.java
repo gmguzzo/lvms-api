@@ -5,15 +5,16 @@
  */
 package br.com.louvemos.api.person;
 
+import br.com.louvemos.api.personshare.PersonShareDTO;
 import br.com.louvemos.api.role.RoleDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.io.Serializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
- *
  * @author gmguzzo
  */
 @Getter
@@ -31,6 +32,7 @@ public class PersonDTO implements Serializable {
     private String lastName;
     private String email;
     private RoleDTO role;
+    private PersonShareDTO personShare;
 
     public PersonDTO(Long id) {
         this.id = id;

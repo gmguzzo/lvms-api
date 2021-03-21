@@ -125,11 +125,11 @@ public class PersonControllerValidator {
     }
 
     private void validatePermissionShare(BaseDTO bdIn) throws LvmsException {
-        if (bdIn == null || bdIn.getPersonShare() == null) {
+        if (bdIn == null || bdIn.getPerson().getPersonShare() == null) {
             throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
         }
 
-        Person pPersist = personService.load(bdIn.getPersonShare().getOwnerPerson().getId(), null);
+        Person pPersist = personService.load(bdIn.getPerson().getId(), null);
         MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (pPersist == null || !pPersist.getUsername().equals(authDetails.getUsername())) {
             throw new LvmsException(LvmsCodesEnum.FORBIDDEN);

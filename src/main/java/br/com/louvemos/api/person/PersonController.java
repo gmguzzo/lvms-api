@@ -111,8 +111,8 @@ public class PersonController extends BaseController {
         personControllerValidator.validateShare(bdIn);
 
         Person pOwner = personConverter.toModel(null, bdIn.getPerson());
-        Person pTarget = personConverter.toModel(null, bdIn.getPersonShare().getTargetPerson());
-        PersonShare personShare = personShareConverter.toModel(null, bdIn.getPersonShare());
+        Person pTarget = personConverter.toModel(null, bdIn.getPerson().getPersonShare().getTargetPerson());
+        PersonShare personShare = personShareConverter.toModel(null, bdIn.getPerson().getPersonShare());
 
         PersonShare psPersist = personShareService.create(personShare, pOwner, pTarget);
 

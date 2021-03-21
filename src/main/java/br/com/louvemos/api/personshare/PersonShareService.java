@@ -42,7 +42,7 @@ public class PersonShareService {
         personShare.setOwnerPerson(ownerPersist);
 
         Person targetPersist = personService.load(target.getId(), null);
-        personShare.setTargetPerson(ownerPersist);
+        personShare.setTargetPerson(targetPersist);
 
 
 //        personShareServiceValidator.validatePersist(PersonShare);

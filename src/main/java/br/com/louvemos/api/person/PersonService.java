@@ -5,6 +5,7 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.auth.PasswordUtils;
 import br.com.louvemos.api.base.ServiceUtils;
@@ -12,6 +13,7 @@ import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.roleperson.RolePersonService;
+import jdk.nashorn.internal.runtime.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -82,6 +84,7 @@ public class PersonService {
         if (id != null) {
             return personRepository.loadById(id);
         } else {
+            System.out.println("AQUI: " + username);
             return personRepository.loadByUsername(username);
         }
     }
