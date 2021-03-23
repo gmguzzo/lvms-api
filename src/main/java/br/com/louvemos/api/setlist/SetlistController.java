@@ -14,6 +14,7 @@ import br.com.louvemos.api.person.PersonService;
 import br.com.louvemos.api.song.Song;
 import br.com.louvemos.api.song.SongConverter;
 import br.com.louvemos.api.song.SongDTO;
+import br.com.louvemos.api.songsetlist.SongSetlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gmguzzo
@@ -80,6 +82,17 @@ public class SetlistController extends BaseController {
             }
             PersonDTO p = personConverter.toDTO(s.getPerson());
             sd.setPerson(p);
+
+            if (s.getSongSetlists() != null && !s.getSongSetlists().isEmpty()) {
+                List<SongDTO> sgList = new ArrayList<>();
+                for (Song sg : s.getSongSetlists()
+                        .stream()
+                        .map(SongSetlist::getSong)
+                        .collect(Collectors.toList())) {
+                    sgList.add(songConverter.toDTO(sg));
+                }
+                sd.setSongs(sgList);
+            }
 
             sdList.add(sd);
         }
