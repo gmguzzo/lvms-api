@@ -5,11 +5,15 @@ package br.com.louvemos.api.category;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
-import java.util.List;
+import br.com.louvemos.api.exception.LvmsException;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -32,6 +36,38 @@ public class CategoryRepository extends BaseRepositoryHibernate<Category> {
         }
 
         return list.get(0);
+    }
+
+    public List<Category> list(List<String> nameList) throws LvmsException {
+
+        String queryStrBase = "SELECT cat.* FROM category cat ";
+
+        List<String> filterStrList = new ArrayList();
+        if (nameList != null && !nameList.isEmpty()) {
+            filterStrList.add("(cat.category_name in (:nameList))");
+        }
+
+        // Build final query string
+        StringBuilder queryStrBuilder = new StringBuilder(queryStrBase);
+
+        if (!filterStrList.isEmpty()) {
+            queryStrBuilder.append(" WHERE ");
+            queryStrBuilder.append(String.join("\n AND ", filterStrList));
+            queryStrBuilder.append("\n");
+        }
+
+        queryStrBuilder.append(" ORDER BY cat.category_name");
+
+        // Build query
+        Query query = getCurrentSession().createNativeQuery(
+                queryStrBuilder.toString())
+                .addEntity(Category.class);
+
+        if (nameList != null && !nameList.isEmpty()) {
+            query.setParameter("nameList", nameList);
+        }
+
+        return query.list();
     }
 
 }

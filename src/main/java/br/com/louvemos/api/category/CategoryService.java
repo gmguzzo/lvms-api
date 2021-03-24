@@ -5,11 +5,14 @@ package br.com.louvemos.api.category;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -71,6 +74,10 @@ public class CategoryService {
         categoryServiceValidator.validateCategoryFound(c);
 
         categoryRepository.delete(c);
+    }
+
+    public List<Category> list(List<String> names) throws LvmsException {
+        return categoryRepository.list(names);
     }
 
 }

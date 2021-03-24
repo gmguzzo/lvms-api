@@ -47,6 +47,7 @@ public class BaseDTO implements Serializable {
     private ArtistDTO artist;
     private List<ArtistDTO> artists;
     private CategoryDTO category;
+    private List<CategoryDTO> categories;
     private SongCategoryDTO songCategory;
     private PersonDTO person;
     private List<PersonDTO> persons;

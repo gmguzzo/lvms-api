@@ -13,15 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author gmguzzo
  */
 @Controller
@@ -36,6 +33,23 @@ public class CategoryController extends BaseController {
 
     @Autowired
     private CategoryConverter categoryConverter;
+
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public BaseDTO list() throws LvmsException {
+
+        List<Category> cList = categoryService.list(null);
+
+        List<CategoryDTO> cdList = new ArrayList<>();
+        for (Category c : cList) {
+            cdList.add(categoryConverter.toDTO(c));
+        }
+
+        BaseDTO bjOut = new BaseDTO();
+        bjOut.setCategories(cdList);
+        return bjOut;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
