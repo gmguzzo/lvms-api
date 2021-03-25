@@ -36,7 +36,7 @@ public class SongCategoryService {
     private SongCategoryRepository songCategoryRepository;
 
     public SongCategory update(SongCategory sc) throws LvmsException {
-        SongCategory scPersist = load(sc.getId());
+        SongCategory scPersist = load(sc.getId(), null, null);
         songCategoryServiceValidator.validateSongCategoryFound(scPersist);
 
         scPersist.setMain(sc.isMain());
@@ -48,8 +48,12 @@ public class SongCategoryService {
 
     }
 
-    public SongCategory load(Long id) {
-        return songCategoryRepository.loadById(id);
+    public SongCategory load(Long id, Long songId, Long categoryId) {
+        if (id != null) {
+            return songCategoryRepository.loadById(id);
+        } else {
+            return songCategoryRepository.loadBySongAndCategory(songId, categoryId);
+        }
     }
 
     public SongCategory create(SongCategory sc, Song song, Category c) throws LvmsException {
@@ -69,8 +73,8 @@ public class SongCategoryService {
         return songCategoryRepository.save(sc);
     }
 
-    public void delete(Long cId) throws LvmsException {
-        SongCategory sc = songCategoryRepository.loadById(cId);
+    public void delete(Long cId, Long songId, Long categoryId) throws LvmsException {
+        SongCategory sc = this.load(null, songId, categoryId);
         songCategoryServiceValidator.validateSongCategoryFound(sc);
 
         songCategoryRepository.delete(sc);

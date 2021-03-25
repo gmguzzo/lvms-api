@@ -96,17 +96,17 @@ public class SongCategoryController {
         return bdOut;
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "{songId}/{categoryId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public BaseDTO delete(
-            @PathVariable(value = "id") Long id
+            @PathVariable(value = "songId") Long songId,
+            @PathVariable(value = "categoryId") Long categoryId
     ) throws LvmsException {
-        //Validate
-        songCategoryControllerValidator.validateDelete(id);
+        songCategoryControllerValidator.validateDelete(songId);
 
         //Delete
-        songCategoryService.delete(id);
+        songCategoryService.delete(null, songId, categoryId);
 
         //Embed
         BaseDTO bd = new BaseDTO();
