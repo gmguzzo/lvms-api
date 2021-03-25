@@ -78,8 +78,8 @@ public class SongService {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
-                "s.id",
-                SortDirectionEnum.desc,
+                "s.title",
+                SortDirectionEnum.asc,
                 (apiKey, apiValue) -> {
                     switch (apiKey.toLowerCase()) {
                         default:

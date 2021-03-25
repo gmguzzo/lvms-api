@@ -5,8 +5,10 @@ package br.com.louvemos.api.category;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import br.com.louvemos.api.base.ServiceUtils;
+import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -76,8 +78,20 @@ public class CategoryService {
         categoryRepository.delete(c);
     }
 
-    public List<Category> list(List<String> names) throws LvmsException {
-        return categoryRepository.list(names);
+    public List<Category> list(List<Long> idList, String q, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+        
+        LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
+                sortMap,
+                "cat.category_name",
+                SortDirectionEnum.asc,
+                (apiKey, apiValue) -> {
+                    switch (apiKey.toLowerCase()) {
+                        default:
+                            return "";
+                    }
+                });
+        
+        return categoryRepository.list(idList, q, firstResult, maxResults, sortWithDbKeys);
     }
 
 }

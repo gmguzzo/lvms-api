@@ -7,7 +7,9 @@ package br.com.louvemos.api.category;
 
 import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
+import br.com.louvemos.api.base.ControllerUtils;
 import br.com.louvemos.api.base.SerializationUtils;
+import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -37,9 +40,20 @@ public class CategoryController extends BaseController {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
-    public BaseDTO list() throws LvmsException {
+    public BaseDTO list(
+            @RequestParam(required = false, value = "ids") String ids,
+            @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "firstResult") Integer firstResult,
+            @RequestParam(required = false, value = "maxResults") Integer maxResults,
+            @RequestParam(required = false, value = "sort") String sort
+    ) throws LvmsException {
 
-        List<Category> cList = categoryService.list(null);
+        firstResult = ControllerUtils.adjustFirstResult(firstResult);
+        maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
+        LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
+        List<Long> idList = ControllerUtils.parseCSVToLongList(ids);
+
+        List<Category> cList = categoryService.list(idList, q, firstResult, maxResults, sortMap);
 
         List<CategoryDTO> cdList = new ArrayList<>();
         for (Category c : cList) {

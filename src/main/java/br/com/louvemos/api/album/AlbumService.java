@@ -69,8 +69,8 @@ public class AlbumService {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
-                "a.id",
-                SortDirectionEnum.desc,
+                "a.album_name",
+                SortDirectionEnum.asc,
                 (apiKey, apiValue) -> {
                     switch (apiKey.toLowerCase()) {
                         default:
