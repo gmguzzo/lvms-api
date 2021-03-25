@@ -58,19 +58,6 @@ public class CategoryRepository extends BaseRepositoryHibernate<Category> {
             filterStrList.add("(cat.category_name ilike (:q))");
         }
 
-        if (sortMap != null && !sortMap.isEmpty()) {
-            queryStrBase += "ORDER BY ";
-            queryStrBase += Joiner.on(",").withKeyValueSeparator(" ").join(sortMap);
-            queryStrBase += "\n";
-        }
-
-        if (firstResult != null) {
-            queryStrBase += "OFFSET :firstResult\n";
-        }
-        if (maxResults != null && maxResults != 0) {
-            queryStrBase += "LIMIT :maxResults\n";
-        }
-
         // Build final query string
         StringBuilder queryStrBuilder = new StringBuilder(queryStrBase);
 
@@ -78,6 +65,19 @@ public class CategoryRepository extends BaseRepositoryHibernate<Category> {
             queryStrBuilder.append(" WHERE ");
             queryStrBuilder.append(String.join("\n AND ", filterStrList));
             queryStrBuilder.append("\n");
+        }
+
+        if (sortMap != null && !sortMap.isEmpty()) {
+            queryStrBuilder.append("ORDER BY ");
+            queryStrBuilder.append(Joiner.on(",").withKeyValueSeparator(" ").join(sortMap));
+            queryStrBuilder.append("\n");
+        }
+
+        if (firstResult != null) {
+            queryStrBuilder.append("OFFSET :firstResult\n");
+        }
+        if (maxResults != null && maxResults != 0) {
+            queryStrBuilder.append("LIMIT :maxResults\n");
         }
 
         // Build query
@@ -92,7 +92,7 @@ public class CategoryRepository extends BaseRepositoryHibernate<Category> {
         if (!StringUtils.isBlank(q)) {
             query.setParameter("q", '%' + q + '%');
         }
-        
+
         //date filter
         if (firstResult != null) {
             query.setParameter("firstResult", firstResult);
