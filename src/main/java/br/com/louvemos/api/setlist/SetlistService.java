@@ -5,7 +5,6 @@ package br.com.louvemos.api.setlist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
@@ -116,7 +115,7 @@ public class SetlistService {
         List<SongSetlist> ssl = c.getSongSetlists();
         if (ssl != null) {
             for (SongSetlist ss : ssl) {
-                songSetlistService.delete(ss.getId());
+                songSetlistService.delete(ss.getId(), null, null);
             }
         }
 

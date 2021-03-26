@@ -35,8 +35,12 @@ public class SongSetlistService {
     @Autowired
     private SongSetlistServiceValidator songSetlistServiceValidator;
 
-    public SongSetlist load(Long id) {
-        return songSetlistRepository.loadById(id);
+    public SongSetlist load(Long id, Long songId, Long setlistId) {
+        if (id != null) {
+            return songSetlistRepository.loadById(id);
+        } else {
+            return songSetlistRepository.loadBySongAndSetlist(songId, setlistId);
+        }
     }
 
     public SongSetlist create(SongSetlist ss, Song song, Setlist s) throws LvmsException {
@@ -56,11 +60,11 @@ public class SongSetlistService {
         return songSetlistRepository.save(ss);
     }
 
-    public void delete(Long ssId) throws LvmsException {
-        SongSetlist ss = songSetlistRepository.loadById(ssId);
-        songSetlistServiceValidator.validateSongSetlistFound(ss);
+    public void delete(Long id, Long songId, Long setlistId) throws LvmsException {
+        SongSetlist ssPersist = this.load(id, songId, setlistId);
+        songSetlistServiceValidator.validateSongSetlistFound(ssPersist);
 
-        songSetlistRepository.delete(ss);
+        songSetlistRepository.delete(ssPersist);
     }
 
 }
