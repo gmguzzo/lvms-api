@@ -8,6 +8,7 @@ package br.com.louvemos.api.song;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.songcategory.SongCategory;
+import br.com.louvemos.api.songsetlist.SongSetlist;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +51,9 @@ public class Song extends BaseEntity {
 
     @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<SongCategory> songCategories;
+
+    @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<SongSetlist> songSetlists;
 
     public Song(Long id) {
         this.id = id;

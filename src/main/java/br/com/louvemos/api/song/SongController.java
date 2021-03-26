@@ -16,7 +16,10 @@ import br.com.louvemos.api.category.Category;
 import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songcategory.SongCategory;
+import br.com.louvemos.api.songcategory.SongCategoryService;
+import br.com.louvemos.api.songsetlist.SongSetlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,6 +54,12 @@ public class SongController extends BaseController {
 
     @Autowired
     private CategoryConverter categoryConverter;
+
+    @Autowired
+    private SongCategoryService songCategoryService;
+
+    @Autowired
+    private SongSetlistService songSetlistService;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -180,6 +189,19 @@ public class SongController extends BaseController {
         songControllerValidator.validateDelete(id);
 
         //Delete
+        Song sPersist = songService.load(id);
+        if (sPersist.getSongCategories() != null) {
+            for (SongCategory songCategory : sPersist.getSongCategories()) {
+                songCategoryService.delete(songCategory.getId(), null, null);
+            }
+        }
+
+        if (sPersist.getSongSetlists() != null) {
+            for (SongSetlist songSetlist : sPersist.getSongSetlists()) {
+                songSetlistService.delete(songSetlist.getId(), null, null);
+            }
+        }
+
         songService.delete(id);
 
         //Embed

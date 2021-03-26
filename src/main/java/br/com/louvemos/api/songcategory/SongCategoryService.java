@@ -73,8 +73,8 @@ public class SongCategoryService {
         return songCategoryRepository.save(sc);
     }
 
-    public void delete(Long cId, Long songId, Long categoryId) throws LvmsException {
-        SongCategory sc = this.load(null, songId, categoryId);
+    public void delete(Long scId, Long songId, Long categoryId) throws LvmsException {
+        SongCategory sc = this.load(scId, songId, categoryId);
         songCategoryServiceValidator.validateSongCategoryFound(sc);
 
         songCategoryRepository.delete(sc);

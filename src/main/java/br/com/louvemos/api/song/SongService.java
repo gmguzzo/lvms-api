@@ -5,7 +5,6 @@ package br.com.louvemos.api.song;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumService;
 import br.com.louvemos.api.album.AlbumServiceValidator;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -63,7 +63,12 @@ public class SongService {
     }
 
     public Song load(Long id) {
-        return songRepository.loadById(id);
+        Song sPersist = songRepository.loadById(id);
+
+        Hibernate.initialize(sPersist);
+        Hibernate.initialize(sPersist.getSongSetlists());
+
+        return sPersist;
     }
 
     public List<Song> list(
@@ -113,11 +118,11 @@ public class SongService {
         return sPersist;
     }
 
-    public void delete(Long cId) throws LvmsException {
-        Song c = songRepository.loadById(cId);
-        songServiceValidator.validateSongFound(c);
+    public void delete(Long sId) throws LvmsException {
+        Song s = songRepository.loadById(sId);
+        songServiceValidator.validateSongFound(s);
 
-        songRepository.delete(c);
+        songRepository.delete(s);
     }
 
 }
