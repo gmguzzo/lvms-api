@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.songcategory;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.category.CategoryConverter;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/songcategories")
-public class SongCategoryController {
+public class SongCategoryController extends BaseController {
 
     @Autowired
     private SongCategoryService songCategoryService;

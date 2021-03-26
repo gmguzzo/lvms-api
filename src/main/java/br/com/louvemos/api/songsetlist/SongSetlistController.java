@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.songsetlist;
 
+import br.com.louvemos.api.base.BaseController;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.SerializationUtils;
 import br.com.louvemos.api.setlist.SetlistConverter;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping(value = "/v2/songsetlists")
-public class SongSetlistController {
+public class SongSetlistController extends BaseController {
 
     @Autowired
     private SongSetlistService songSetlistService;
