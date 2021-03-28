@@ -63,9 +63,11 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
         }
 
         if (!StringUtils.isBlank(q)) {
-            filterStrList.add("(s.lyric ilike (:q)"
-                    + "OR a.album_name ilike (:q)"
-                    + "OR ar.artist_name ilike (:q))");
+            filterStrList
+                    .add("(s.title ilike (:q)\n"
+                            + "OR s.lyric ilike (:q)\n"
+                            + "OR a.album_name ilike (:q)\n"
+                            + "OR ar.artist_name ilike (:q))");
         }
 
         // Build final query string
