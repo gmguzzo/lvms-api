@@ -69,10 +69,7 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
         }
 
         if (!StringUtils.isBlank(q)) {
-            filterStrList.add("(p.username ilike (:q)\n"
-                    + "OR p.first_name ilike (:q)\n"
-                    + "OR p.last_name ilike (:q)\n"
-                    + "OR p.email ilike (:q))");
+            filterStrList.add("(p.username ilike (:q))");
         }
 
         // Build final query string
