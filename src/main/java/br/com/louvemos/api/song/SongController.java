@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.song;
 
+import br.com.louvemos.api.externallink.*;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumConverter;
 import br.com.louvemos.api.album.AlbumDTO;
@@ -16,6 +17,7 @@ import br.com.louvemos.api.category.Category;
 import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.externallink.ExternalLinkConverter;
 import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songcategory.SongCategory;
 import br.com.louvemos.api.songcategory.SongCategoryService;
@@ -54,6 +56,9 @@ public class SongController extends BaseController {
 
     @Autowired
     private CategoryConverter categoryConverter;
+
+    @Autowired
+    private ExternalLinkConverter externalLinkConverter;
 
     @Autowired
     private SongCategoryService songCategoryService;
@@ -108,6 +113,15 @@ public class SongController extends BaseController {
                 }
 
                 sd.setCategories(cdList);
+            }
+
+            if (s.getExternalLinks() != null && !s.getExternalLinks().isEmpty()) {
+                List<ExternalLinkDTO> elList = new ArrayList<>();
+                for (ExternalLink e : s.getExternalLinks()) {
+                    elList.add(externalLinkConverter.toDTO(e));
+                }
+
+                sd.setExternalLinks(elList);
             }
         }
 

@@ -92,7 +92,13 @@ public class SongService {
                     }
                 });
 
-        return songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
+        List<Song> sList = songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
+
+        for (Song song : sList) {
+            Hibernate.initialize(song.getExternalLinks());
+        }
+
+        return sList;
     }
 
     public Song create(Song song, Album album, Artist ar, List<Category> categories) throws LvmsException {

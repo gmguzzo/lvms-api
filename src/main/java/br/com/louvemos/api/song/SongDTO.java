@@ -7,6 +7,7 @@ package br.com.louvemos.api.song;
 
 import br.com.louvemos.api.album.*;
 import br.com.louvemos.api.category.*;
+import br.com.louvemos.api.externallink.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.List;
@@ -35,12 +36,14 @@ public class SongDTO implements Serializable {
     private String lyric;
 
     private String status;
-    
+
     private String tone;
 
     private AlbumDTO album;
 
     private List<CategoryDTO> categories;
+
+    private List<ExternalLinkDTO> externalLinks;
 
     public SongDTO(Long id) {
         this.id = id;

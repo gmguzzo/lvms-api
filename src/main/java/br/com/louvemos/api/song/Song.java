@@ -6,6 +6,7 @@
 package br.com.louvemos.api.song;
 
 import br.com.louvemos.api.album.Album;
+import br.com.louvemos.api.externallink.ExternalLink;
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.songcategory.SongCategory;
 import br.com.louvemos.api.songsetlist.SongSetlist;
@@ -54,6 +55,9 @@ public class Song extends BaseEntity {
 
     @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<SongSetlist> songSetlists;
+
+    @OneToMany(mappedBy = "song", cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<ExternalLink> externalLinks;
 
     public Song(Long id) {
         this.id = id;

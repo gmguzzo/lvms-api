@@ -59,7 +59,12 @@ public enum LvmsCodesEnum {
     SETLIST_PUBLIC_INVALID(HttpStatus.BAD_REQUEST, 8002L, "setlist.public.invalid"),
     SETLIST_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 8003L, "setlist.description.invalid"),
     SETLIST_NAME_INVALID(HttpStatus.BAD_REQUEST, 8004L, "setlist.name.invalid"),
-    SETLIST_PRIVATE_LIST_MUST_HAVE_PERSON(HttpStatus.BAD_REQUEST, 8005L, "setlist.private.list.must.have.person");
+    SETLIST_PRIVATE_LIST_MUST_HAVE_PERSON(HttpStatus.BAD_REQUEST, 8005L, "setlist.private.list.must.have.person"),
+    
+    EXTERNAL_LINK_NOT_FOUND(HttpStatus.BAD_REQUEST, 9001L, "external.link.not.found"),
+    EXTERNAL_LINK_TYPE_INVALID(HttpStatus.BAD_REQUEST, 9002L, "external.link.type.invalid"),
+    EXTERNAL_LINK_MEDIA_INVALID(HttpStatus.BAD_REQUEST, 9003L, "external.link.media.invalid"),
+    EXTERNAL_LINK_URL_INVALID(HttpStatus.BAD_REQUEST, 9004L, "external.link.url.invalid");
 
     private Long code;
     private String key;

@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.base;
 
+import br.com.louvemos.api.externallink.ExternalLinkDTO;
 import br.com.louvemos.api.album.AlbumDTO;
 import br.com.louvemos.api.artist.ArtistDTO;
 import br.com.louvemos.api.category.CategoryDTO;
@@ -55,5 +56,6 @@ public class BaseDTO implements Serializable {
     private SetlistDTO setlist;
     private List<SetlistDTO> setlists;
     private SongSetlistDTO songSetlist;
+    private ExternalLinkDTO externalLink;
 
 }
