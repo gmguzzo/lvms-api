@@ -38,18 +38,11 @@ public class PersonService {
     }
 
     public List<Person> list(
-            String q,
-            List<Long> pIdList,
-            List<String> firstNames,
-            List<String> lastNames,
-            List<String> emails,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> pIdList, List<String> usernames, List<String> firstNames, List<String> lastNames, List<String> emails, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
-                "a.id",
+                "p.first_name",
                 SortDirectionEnum.desc,
                 (apiKey, apiValue) -> {
                     switch (apiKey.toLowerCase()) {
@@ -58,7 +51,7 @@ public class PersonService {
                     }
                 });
 
-        return personRepository.list(q, pIdList, firstNames, lastNames, emails, firstResult, maxResults, sortMap);
+        return personRepository.list(q, pIdList, firstNames, lastNames, emails, usernames, firstResult, maxResults, sortWithDbKeys);
     }
 
     public Person update(Person p) throws LvmsException {

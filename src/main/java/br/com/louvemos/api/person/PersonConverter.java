@@ -5,7 +5,9 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import br.com.louvemos.api.auth.MyUserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,6 +42,14 @@ public class PersonConverter {
         pd.setId(p.getId());
         pd.setUsername(p.getUsername());
 
+        //Non Admins should not see other users details
+        MyUserDetails loggedUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!loggedUser.getUsername().equals(p.getUsername())) {
+            GrantedAuthority ga = loggedUser.getAuthorities().stream().filter(e -> e.getAuthority().equals("ADMIN")).findAny().orElse(null);
+            if (ga == null) {
+                return pd;
+            }
+        }
 
         pd.setFirstName(p.getFirstName());
         pd.setLastName(p.getLastName());

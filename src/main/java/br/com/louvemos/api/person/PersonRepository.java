@@ -5,7 +5,6 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.base.StringUtils;
@@ -43,14 +42,7 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
     }
 
     public List<Person> list(
-            String q,
-            List<Long> pIdList,
-            List<String> firstNames,
-            List<String> lastNames,
-            List<String> emails,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> pIdList, List<String> firstNames, List<String> lastNames, List<String> emails, List<String> usernames, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
         String queryStrBase = "SELECT p.*\n"
                 + "FROM person p \n";
 
@@ -69,11 +61,16 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
         }
 
         if (emails != null && !emails.isEmpty()) {
-            filterStrList.add("(p.last_name IN (:emails))");
+            filterStrList.add("(p.email IN (:emails))");
+        }
+
+        if (usernames != null && !usernames.isEmpty()) {
+            filterStrList.add("(p.username IN (:usernames))");
         }
 
         if (!StringUtils.isBlank(q)) {
-            filterStrList.add("(p.first_name ilike (:q)\n"
+            filterStrList.add("(p.username ilike (:q)\n"
+                    + "OR p.first_name ilike (:q)\n"
                     + "OR p.last_name ilike (:q)\n"
                     + "OR p.email ilike (:q))");
         }
@@ -116,6 +113,9 @@ public class PersonRepository extends BaseRepositoryHibernate<Person> {
         }
         if (emails != null && !emails.isEmpty()) {
             query.setParameterList("emails", emails);
+        }
+        if (usernames != null && !usernames.isEmpty()) {
+            query.setParameterList("usernames", usernames);
         }
 
         if (!StringUtils.isBlank(q)) {

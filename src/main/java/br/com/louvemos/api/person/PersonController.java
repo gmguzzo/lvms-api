@@ -57,6 +57,7 @@ public class PersonController extends BaseController {
     public BaseDTO list(
             @RequestParam(required = false, value = "ids") String ids,
             @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "usernames") String usernames,
             @RequestParam(required = false, value = "firstNames") String firstNames,
             @RequestParam(required = false, value = "lastNames") String lastNames,
             @RequestParam(required = false, value = "emails") String emails,
@@ -69,12 +70,13 @@ public class PersonController extends BaseController {
         List<String> firstNameList = ControllerUtils.parseCSVToStringList(firstNames);
         List<String> lastNameList = ControllerUtils.parseCSVToStringList(lastNames);
         List<String> emailList = ControllerUtils.parseCSVToStringList(emails);
+        List<String> usernameList = ControllerUtils.parseCSVToStringList(usernames);
 
         firstResult = ControllerUtils.adjustFirstResult(firstResult);
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Person> list = personService.list(q, idList, firstNameList, lastNameList, emailList, firstResult, maxResults, sortMap);
+        List<Person> list = personService.list(q, idList, usernameList, firstNameList, lastNameList, emailList, firstResult, maxResults, sortMap);
 
         BaseDTO bd = new BaseDTO();
         embedPersonOnBaseDTO(bd, list);
@@ -111,7 +113,7 @@ public class PersonController extends BaseController {
         personControllerValidator.validateShare(bdIn);
 
         Person pOwner = personConverter.toModel(bdIn.getPerson().getId(), null);
-        Person pTarget = personConverter.toModel(bdIn.getPerson().getPersonShare().getTargetPerson().getId(), null );
+        Person pTarget = personConverter.toModel(bdIn.getPerson().getPersonShare().getTargetPerson().getId(), null);
         PersonShare personShare = personShareConverter.toModel(null, bdIn.getPerson().getPersonShare());
 
         PersonShare psPersist = personShareService.create(personShare, pOwner, pTarget);
