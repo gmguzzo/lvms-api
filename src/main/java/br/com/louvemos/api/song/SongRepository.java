@@ -30,6 +30,7 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
             List<Long> ids,
             List<Long> albumIds,
             List<Long> artistIds,
+            List<Long> setlistIds,
             String q,
             List<String> categoryList,
             Integer firstResult,
@@ -46,6 +47,13 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
                     + "		FROM song_category sc\n"
                     + "		LEFT JOIN category c ON c.id = sc.category_id\n"
                     + "		WHERE c.category_name IN (:categoryList)) categories ON categories.sId = s.id\n";
+        }
+
+        if (setlistIds != null && !setlistIds.isEmpty()) {
+            queryStrBase += "JOIN (SELECT DISTINCT ssl.song_id as sId\n"
+                    + "		FROM song_setlist ssl\n"
+                    + "		LEFT JOIN setlist st ON ssl.setlist_id = st.id\n"
+                    + "		WHERE st.id IN (:setlistIds)) setlists ON setlists.sId = s.id\n";
         }
 
         List<String> filterStrList = new ArrayList();
@@ -108,6 +116,10 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
         }
         if (categoryList != null && !categoryList.isEmpty()) {
             query.setParameterList("categoryList", categoryList);
+        }
+
+        if (setlistIds != null && !setlistIds.isEmpty()) {
+            query.setParameterList("setlistIds", setlistIds);
         }
 
         if (!StringUtils.isBlank(q)) {

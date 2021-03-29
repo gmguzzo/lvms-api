@@ -20,7 +20,7 @@ public class CORSHandlerInterceptor implements AsyncHandlerInterceptor {
         if (HttpMethod.OPTIONS.matches(httpRequest.getMethod())) {
             httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
             httpResponse.setHeader("Access-Control-Max-Age", "86400");
-            httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, api_key, Authorization, x-requested-with, Collact-System-Scope");
+            httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, api_key, Authorization, x-requested-with");
 //            response.setHeader("Vary", "Origin");
             httpResponse.setStatus(HttpServletResponse.SC_OK);
             return false;

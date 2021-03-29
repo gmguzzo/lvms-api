@@ -73,6 +73,7 @@ public class SongController extends BaseController {
             @RequestParam(required = false, value = "ids") String ids,
             @RequestParam(required = false, value = "albumIds") String albumIds,
             @RequestParam(required = false, value = "artistIds") String artistIds,
+            @RequestParam(required = false, value = "setlistIds") String setlistIds,
             @RequestParam(required = false, value = "q") String q,
             @RequestParam(required = false, value = "categories") String categories,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
@@ -85,12 +86,13 @@ public class SongController extends BaseController {
         List<Long> albumIdList = ControllerUtils.parseCSVToLongList(albumIds);
         List<Long> artistIdList = ControllerUtils.parseCSVToLongList(artistIds);
         List<String> categoryList = ControllerUtils.parseCSVToStringList(categories);
+        List<Long> setlistIdList = ControllerUtils.parseCSVToLongList(setlistIds);
 
         firstResult = ControllerUtils.adjustFirstResult(firstResult);
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Song> list = songService.list(idList, albumIdList, artistIdList, q, categoryList, firstResult, maxResults, sortMap);
+        List<Song> list = songService.list(idList, albumIdList, artistIdList, setlistIdList, q, categoryList, firstResult, maxResults, sortMap);
 
         List<SongDTO> sdList = new ArrayList<>();
         for (Song s : list) {

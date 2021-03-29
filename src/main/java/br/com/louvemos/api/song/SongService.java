@@ -75,6 +75,7 @@ public class SongService {
             List<Long> ids,
             List<Long> albumIds,
             List<Long> artistIds,
+            List<Long> setlistIds,
             String q,
             List<String> categoryList,
             Integer firstResult,
@@ -92,7 +93,7 @@ public class SongService {
                     }
                 });
 
-        List<Song> sList = songRepository.list(ids, albumIds, artistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
+        List<Song> sList = songRepository.list(ids, albumIds, artistIds, setlistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
 
         for (Song song : sList) {
             Hibernate.initialize(song.getExternalLinks());
