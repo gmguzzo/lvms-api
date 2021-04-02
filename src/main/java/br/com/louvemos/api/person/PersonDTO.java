@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author gmguzzo
@@ -33,6 +34,7 @@ public class PersonDTO implements Serializable {
     private String email;
     private RoleDTO role;
     private PersonShareDTO personShare;
+    private List<PersonShareDTO> sharedResources;
 
     public PersonDTO(Long id) {
         this.id = id;

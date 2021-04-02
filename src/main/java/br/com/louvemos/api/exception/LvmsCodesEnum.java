@@ -12,55 +12,46 @@ public enum LvmsCodesEnum {
     // category prefix: 5
     // person prefix: 6
     // role prefix: 7
-    
     AUTHENTICATION_FAILED(HttpStatus.FORBIDDEN, 0001L, "forbidden"),
     GENERIC_INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 0002L, "generic.internal.server.error"),
     JSON_INVALID_FORMAT(HttpStatus.INTERNAL_SERVER_ERROR, 0003L, "json.invalid.format"),
     FORBIDDEN(HttpStatus.FORBIDDEN, 0004L, "forbidden"),
-    
     CHORD_NULL(HttpStatus.BAD_REQUEST, 1001L, "chord.null"),
     CHORD_BASS_STRING_INVALID(HttpStatus.BAD_REQUEST, 1002L, "chord.bass.string.invalid"),
     CHORD_SOUNDED_STRINGS_INVALID(HttpStatus.BAD_REQUEST, 1003L, "chord.sounded.strings.invalid"),
     CHORD_MUTED_STRINGS_INVALID(HttpStatus.BAD_REQUEST, 1004L, "chord.muted.strings.invalid"),
     CHORD_DIAGRAM_INVALID(HttpStatus.BAD_REQUEST, 1005L, "chord.diagram.invalid"),
     CHORD_SYMBOL_INVALID(HttpStatus.BAD_REQUEST, 1006L, "chord.symbol.invalid"),
-    
     SONG_NULL(HttpStatus.BAD_REQUEST, 2001L, "song.null"),
     SONG_TONE_INVALID(HttpStatus.BAD_REQUEST, 2002L, "song.tone.invalid"),
-    SONG_STATUS_INVALID(HttpStatus.BAD_REQUEST, 2003L, "song.status.invalid"), 
-    SONG_LYRIC_INVALID(HttpStatus.BAD_REQUEST, 2004L, "song.lyric.invalid"), 
-    SONG_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 2005L, "song.description.invalid"), 
-    SONG_TITLE_INVALID(HttpStatus.BAD_REQUEST, 2006L, "song.title.invalid"), 
-    
+    SONG_STATUS_INVALID(HttpStatus.BAD_REQUEST, 2003L, "song.status.invalid"),
+    SONG_LYRIC_INVALID(HttpStatus.BAD_REQUEST, 2004L, "song.lyric.invalid"),
+    SONG_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 2005L, "song.description.invalid"),
+    SONG_TITLE_INVALID(HttpStatus.BAD_REQUEST, 2006L, "song.title.invalid"),
     ALBUM_NULL(HttpStatus.BAD_REQUEST, 3001L, "album.null"),
     ALBUM_NAME_INVALID(HttpStatus.BAD_REQUEST, 3002L, "album.name.invalid"),
     ALBUM_GENRE_INVALID(HttpStatus.BAD_REQUEST, 3003L, "album.genre.invalid"),
     ALBUM_DEBUT_INVALID(HttpStatus.BAD_REQUEST, 3004L, "album.debut.invalid"),
-    
     ARTIST_NULL(HttpStatus.BAD_REQUEST, 4001L, "artist.null"),
     ARTIST_NAME_INVALID(HttpStatus.BAD_REQUEST, 4002L, "artist.name_.invalid"),
     ARTIST_GENRE_INVALID(HttpStatus.BAD_REQUEST, 4003L, "artist.genre.invalid"),
     ARTIST_SINCE_INVALID(HttpStatus.BAD_REQUEST, 4004L, "artist.since.invalid"),
-    
     CATEGORY_NULL(HttpStatus.BAD_REQUEST, 5001L, "category.null"),
     CATEGORY_NAME_INVALID(HttpStatus.BAD_REQUEST, 5002L, "category.name.invalid"),
     CATEGORY_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 5003L, "category.description.invalid"),
-    
     PERSON_NULL(HttpStatus.BAD_REQUEST, 6001L, "person.null"),
     PERSON_USERNAME_INVALID(HttpStatus.BAD_REQUEST, 6002L, "person.username.invalid"),
     PERSON_PASSWORD_INVALID(HttpStatus.BAD_REQUEST, 6003L, "person.password.invalid"),
     PERSON_FIRSTNAME_INVALID(HttpStatus.BAD_REQUEST, 6004L, "person.firstname.invalid"),
     PERSON_LASTNAME_INVALID(HttpStatus.BAD_REQUEST, 6005L, "person.lastname.invalid"),
     PERSON_EMAIL_INVALID(HttpStatus.BAD_REQUEST, 6006L, "person.email.invalid"),
-    
+    PERSON_SHARE_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, 6007L, "person.share.already.exists"),
     ROLE_NULL(HttpStatus.BAD_REQUEST, 7001L, "role.null"),
-    
     SETLIST_NULL(HttpStatus.BAD_REQUEST, 8001L, "setlist.null"),
     SETLIST_PUBLIC_INVALID(HttpStatus.BAD_REQUEST, 8002L, "setlist.public.invalid"),
     SETLIST_DESCRIPTION_INVALID(HttpStatus.BAD_REQUEST, 8003L, "setlist.description.invalid"),
     SETLIST_NAME_INVALID(HttpStatus.BAD_REQUEST, 8004L, "setlist.name.invalid"),
     SETLIST_PRIVATE_LIST_MUST_HAVE_PERSON(HttpStatus.BAD_REQUEST, 8005L, "setlist.private.list.must.have.person"),
-    
     EXTERNAL_LINK_NOT_FOUND(HttpStatus.BAD_REQUEST, 9001L, "external.link.not.found"),
     EXTERNAL_LINK_TYPE_INVALID(HttpStatus.BAD_REQUEST, 9002L, "external.link.type.invalid"),
     EXTERNAL_LINK_MEDIA_INVALID(HttpStatus.BAD_REQUEST, 9003L, "external.link.media.invalid"),

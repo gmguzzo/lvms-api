@@ -5,7 +5,6 @@ package br.com.louvemos.api.personshare;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.person.PersonService;
@@ -22,12 +21,15 @@ public class PersonShareService {
     private PersonService personService;
 
     @Autowired
+    private PersonShareServiceValidator personShareServiceValidator;
+
+    @Autowired
     private PersonShareRepository personShareRepository;
 
     public PersonShare load(Long id,
-                            PersonShareSubjectTypeEnum subType,
-                            Long subId,
-                            Long pTargetId) {
+            PersonShareSubjectTypeEnum subType,
+            Long subId,
+            Long pTargetId) {
         if (id != null) {
             return personShareRepository.loadById(id);
         } else {
@@ -44,15 +46,14 @@ public class PersonShareService {
         Person targetPersist = personService.load(target.getId(), null);
         personShare.setTargetPerson(targetPersist);
 
-
-//        personShareServiceValidator.validatePersist(PersonShare);
+        personShareServiceValidator.validatePersist(personShare);
 
         return personShareRepository.save(personShare);
     }
 
     public void delete(Long pId) throws LvmsException {
         PersonShare p = personShareRepository.loadById(pId);
-//        personShareServiceValidator.validatePersonShareFound(p);
+        personShareServiceValidator.validatePersonShareFound(p);
 
         personShareRepository.delete(p);
     }

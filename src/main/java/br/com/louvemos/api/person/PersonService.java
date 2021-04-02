@@ -5,7 +5,6 @@ package br.com.louvemos.api.person;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.auth.PasswordUtils;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -72,10 +72,16 @@ public class PersonService {
     }
 
     public Person load(Long id, String username) {
+        Person p = null;
         if (id != null) {
-            return personRepository.loadById(id);
+            p = personRepository.loadById(id);
         } else if (username != null) {
-            return personRepository.loadByUsername(username);
+            p = personRepository.loadByUsername(username);
+        }
+
+        if (p != null) {
+            Hibernate.initialize(p.getSharedResources());
+            return p;
         }
 
         return null;

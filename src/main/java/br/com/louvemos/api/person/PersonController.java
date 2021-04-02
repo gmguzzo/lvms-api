@@ -11,6 +11,7 @@ import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.personshare.PersonShare;
 import br.com.louvemos.api.personshare.PersonShareConverter;
+import br.com.louvemos.api.personshare.PersonShareDTO;
 import br.com.louvemos.api.personshare.PersonShareService;
 import br.com.louvemos.api.role.Role;
 import br.com.louvemos.api.role.RoleConverter;
@@ -246,7 +247,16 @@ public class PersonController extends BaseController {
         List<PersonDTO> pList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (Person p : list) {
-                pList.add(personConverter.toDTO(p));
+                List<PersonShareDTO> psdList = new ArrayList<>();
+                PersonDTO pd = personConverter.toDTO(p);
+                for (PersonShare sharedResource : p.getSharedResources()) {
+                    PersonShareDTO psd = personShareConverter.toDTO(sharedResource);
+                    psd.setOwnerPerson(personConverter.toDTO(sharedResource.getOwnerPerson()));
+                    psd.setTargetPerson(personConverter.toDTO(sharedResource.getTargetPerson()));
+                    psdList.add(psd);
+                }
+                pd.setSharedResources(psdList);
+                pList.add(pd);
             }
         }
         bd.setPerson(pList.get(0));
