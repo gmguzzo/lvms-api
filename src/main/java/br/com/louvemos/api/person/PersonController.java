@@ -251,7 +251,6 @@ public class PersonController extends BaseController {
                 PersonDTO pd = personConverter.toDTO(p);
                 for (PersonShare sharedResource : p.getSharedResources()) {
                     PersonShareDTO psd = personShareConverter.toDTO(sharedResource);
-                    psd.setOwnerPerson(personConverter.toDTO(sharedResource.getOwnerPerson()));
                     psd.setTargetPerson(personConverter.toDTO(sharedResource.getTargetPerson()));
                     psdList.add(psd);
                 }

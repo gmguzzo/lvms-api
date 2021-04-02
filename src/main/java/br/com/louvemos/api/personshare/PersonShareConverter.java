@@ -5,7 +5,6 @@ package br.com.louvemos.api.personshare;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +26,7 @@ public class PersonShareConverter {
 
         return p;
     }
-    
+
     public PersonShareDTO toDTO(PersonShare p) {
         if (p == null) {
             return null;
@@ -35,6 +34,8 @@ public class PersonShareConverter {
 
         PersonShareDTO pd = new PersonShareDTO();
         pd.setId(p.getId());
+        pd.setSubjectType(p.getSubjectType().toString());
+        pd.setSubjectId(p.getSubjectId());
 
         return pd;
     }
