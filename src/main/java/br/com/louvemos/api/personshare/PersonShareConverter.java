@@ -27,5 +27,16 @@ public class PersonShareConverter {
 
         return p;
     }
+    
+    public PersonShareDTO toDTO(PersonShare p) {
+        if (p == null) {
+            return null;
+        }
+
+        PersonShareDTO pd = new PersonShareDTO();
+        pd.setId(p.getId());
+
+        return pd;
+    }
 
 }
