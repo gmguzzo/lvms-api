@@ -58,7 +58,7 @@ public class Person extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
     private Set<RolePerson> rolePersons = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerPerson", fetch = FetchType.LAZY)
     private List<PersonShare> sharedResources = new ArrayList<>();
 
     public Person(Long id) {
