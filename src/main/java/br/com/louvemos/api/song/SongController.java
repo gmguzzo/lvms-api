@@ -6,18 +6,21 @@
 package br.com.louvemos.api.song;
 
 import br.com.louvemos.api.externallink.*;
+import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumConverter;
 import br.com.louvemos.api.album.AlbumDTO;
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistConverter;
 import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.category.Category;
 import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.externallink.ExternalLinkConverter;
+import br.com.louvemos.api.person.PersonService;
 import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songcategory.SongCategory;
 import br.com.louvemos.api.songcategory.SongCategoryService;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @author gmguzzo
@@ -38,6 +42,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/v2/songs")
 public class SongController extends BaseController {
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private SongService songService;
@@ -161,8 +168,14 @@ public class SongController extends BaseController {
             }
         }
 
+        Person p = null;
+        if (!s.isPublic()) {
+            MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            p = personService.load(null, authDetails.getUsername());
+        }
+
         // Create
-        Song sPersist = songService.create(s, a, ar, cList);
+        Song sPersist = songService.create(s, a, ar, p, cList);
 
         // Embed
         BaseDTO bdOut = new BaseDTO();

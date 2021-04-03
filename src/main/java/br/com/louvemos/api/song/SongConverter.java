@@ -39,7 +39,7 @@ public class SongConverter {
         s.setLyric(sd.getLyric());
         s.setTone(sd.getTone());
         s.setStatus(sd.getStatus());
-        s.setPublic(sd.getIsPublic());
+        s.setPublic(sd.getIsPublic() != null ? sd.getIsPublic() : false);
 
         return s;
     }

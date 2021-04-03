@@ -101,12 +101,12 @@ public class SongControllerValidator {
     }
 
     private void validatePermission(SongDTO s) throws LvmsException {
+        if (s.getIsPublic() == null || !s.getIsPublic()) {
+            return;
+        }
         MyUserDetails loggedUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        boolean perm = false;
-        if (s.getIsPublic()) {
-            perm = loggedUser.getAuthorities().stream().filter(e -> e.getAuthority().equals("ADMIN")).findAny().isPresent();
-        }
+        boolean perm = loggedUser.getAuthorities().stream().filter(e -> e.getAuthority().equals("ADMIN")).findAny().isPresent();
         if (perm) {
             return;
         }
