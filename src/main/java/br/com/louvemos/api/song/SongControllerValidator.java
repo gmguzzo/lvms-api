@@ -5,17 +5,11 @@ import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.StringUtils;
-import br.com.louvemos.api.person.Person;
-import br.com.louvemos.api.person.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SongControllerValidator {
-
-    @Autowired
-    private PersonService personService;
 
     public void validateCreate(BaseDTO bdIn) throws LvmsException {
         validateBaseDTO(bdIn);
@@ -29,7 +23,6 @@ public class SongControllerValidator {
         validateLyric(s);
         validateStatus(s);
         validateTone(s);
-        validatePerson(s);
 
         validatePermission(s);
     }
@@ -107,25 +100,17 @@ public class SongControllerValidator {
         }
     }
 
-    private void validatePerson(SongDTO s) throws LvmsException {
-        if (s.getIsPublic() != null && !s.getIsPublic() && s.getPerson() == null) {
-            throw new LvmsException(LvmsCodesEnum.PERSON_NULL);
-        }
-    }
-
     private void validatePermission(SongDTO s) throws LvmsException {
-        Person p = personService.load(s.getPerson().getId(), null);
         MyUserDetails loggedUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        boolean perm;
+        boolean perm = false;
         if (s.getIsPublic()) {
             perm = loggedUser.getAuthorities().stream().filter(e -> e.getAuthority().equals("ADMIN")).findAny().isPresent();
-        } else {
-            perm = p != null && loggedUser.getUsername().equals(p.getUsername());
         }
         if (perm) {
             return;
         }
+
         throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
     }
 
