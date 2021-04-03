@@ -22,6 +22,8 @@ public class SongServiceValidator {
         validateLyric(s);
         validateStatus(s);
         validateTone(s);
+
+        validatePrivateSongHasPerson(s);
     }
 
     public void validateSongFound(Song c) throws LvmsException {
@@ -72,6 +74,12 @@ public class SongServiceValidator {
     private void validateAlbum(Song s) throws LvmsException {
         if (s.getAlbum() == null) {
             throw new LvmsException(LvmsCodesEnum.ALBUM_NULL);
+        }
+    }
+
+    private void validatePrivateSongHasPerson(Song s) throws LvmsException {
+        if (s.getPerson() == null && !s.isPublic()) {
+            throw new LvmsException(LvmsCodesEnum.SONG_NULL);
         }
     }
 

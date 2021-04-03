@@ -5,6 +5,7 @@
  */
 package br.com.louvemos.api.song;
 
+import br.com.louvemos.api.person.PersonDTO;
 import br.com.louvemos.api.album.*;
 import br.com.louvemos.api.category.*;
 import br.com.louvemos.api.externallink.*;
@@ -40,6 +41,10 @@ public class SongDTO implements Serializable {
     private String tone;
 
     private AlbumDTO album;
+
+    private Boolean isPublic;
+
+    private PersonDTO person;
 
     private List<CategoryDTO> categories;
 

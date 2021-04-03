@@ -27,15 +27,7 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
     }
 
     public List<Song> list(
-            List<Long> ids,
-            List<Long> albumIds,
-            List<Long> artistIds,
-            List<Long> setlistIds,
-            String q,
-            List<String> categoryList,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            List<Long> ids, List<Long> albumIds, List<Long> artistIds, List<Long> setlistIds, String q, Boolean isPublic, List<String> categoryList, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         String queryStrBase = "SELECT s.*\n"
                 + "FROM song s \n"
@@ -68,6 +60,10 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
 
         if (artistIds != null && !artistIds.isEmpty()) {
             filterStrList.add("(ar.id IN (:artistIds))");
+        }
+
+        if (isPublic != null) {
+            filterStrList.add("(s.is_public = (:isPublic))");
         }
 
         if (!StringUtils.isBlank(q)) {
@@ -120,6 +116,10 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
 
         if (setlistIds != null && !setlistIds.isEmpty()) {
             query.setParameterList("setlistIds", setlistIds);
+        }
+
+        if (isPublic != null) {
+            query.setParameter("isPublic", isPublic);
         }
 
         if (!StringUtils.isBlank(q)) {

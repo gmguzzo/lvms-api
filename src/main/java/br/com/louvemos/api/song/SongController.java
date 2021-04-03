@@ -75,6 +75,7 @@ public class SongController extends BaseController {
             @RequestParam(required = false, value = "artistIds") String artistIds,
             @RequestParam(required = false, value = "setlistIds") String setlistIds,
             @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "isPublic") Boolean isPublic,
             @RequestParam(required = false, value = "categories") String categories,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
             @RequestParam(required = false, value = "maxResults") Integer maxResults,
@@ -92,7 +93,7 @@ public class SongController extends BaseController {
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Song> list = songService.list(idList, albumIdList, artistIdList, setlistIdList, q, categoryList, firstResult, maxResults, sortMap);
+        List<Song> list = songService.list(idList, albumIdList, artistIdList, setlistIdList, q, isPublic, categoryList, firstResult, maxResults, sortMap);
 
         List<SongDTO> sdList = new ArrayList<>();
         for (Song s : list) {

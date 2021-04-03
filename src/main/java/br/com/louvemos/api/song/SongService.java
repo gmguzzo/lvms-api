@@ -54,6 +54,7 @@ public class SongService {
         sPersist.setTitle(s.getTitle());
         sPersist.setDescription(s.getDescription());
         sPersist.setLyric(s.getLyric());
+        sPersist.setPublic(s.isPublic());
 
         sPersist.setUpTimestamps();
         songServiceValidator.validatePersist(sPersist);
@@ -72,15 +73,7 @@ public class SongService {
     }
 
     public List<Song> list(
-            List<Long> ids,
-            List<Long> albumIds,
-            List<Long> artistIds,
-            List<Long> setlistIds,
-            String q,
-            List<String> categoryList,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            List<Long> ids, List<Long> albumIds, List<Long> artistIds, List<Long> setlistIds, String q, Boolean isPublic, List<String> categoryList, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
@@ -93,7 +86,7 @@ public class SongService {
                     }
                 });
 
-        List<Song> sList = songRepository.list(ids, albumIds, artistIds, setlistIds, q, categoryList, firstResult, maxResults, sortWithDbKeys);
+        List<Song> sList = songRepository.list(ids, albumIds, artistIds, setlistIds, q, isPublic, categoryList, firstResult, maxResults, sortWithDbKeys);
 
         for (Song song : sList) {
             Hibernate.initialize(song.getExternalLinks());

@@ -6,6 +6,7 @@
 package br.com.louvemos.api.song;
 
 import br.com.louvemos.api.album.Album;
+import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.externallink.ExternalLink;
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.songcategory.SongCategory;
@@ -45,6 +46,13 @@ public class Song extends BaseEntity {
 
     @Column(name = "status", columnDefinition = "text", nullable = false)
     private String status;
+
+    @Column(name = "is_public", nullable = false)
+    private boolean isPublic = false;
+
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name = "fk_person_id"))
+    private Person person;
 
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id", nullable = false, foreignKey = @ForeignKey(name = "fk_album_id"))
