@@ -9,6 +9,8 @@ import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.roleperson.RolePerson;
+import br.com.louvemos.api.role.*;
 import br.com.louvemos.api.personshare.PersonShare;
 import br.com.louvemos.api.personshare.PersonShareConverter;
 import br.com.louvemos.api.personshare.PersonShareDTO;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gmguzzo
@@ -249,12 +252,26 @@ public class PersonController extends BaseController {
             for (Person p : list) {
                 List<PersonShareDTO> psdList = new ArrayList<>();
                 PersonDTO pd = personConverter.toDTO(p);
-                for (PersonShare sharedResource : p.getSharedResources()) {
-                    PersonShareDTO psd = personShareConverter.toDTO(sharedResource);
-                    psd.setTargetPerson(personConverter.toDTO(sharedResource.getTargetPerson()));
-                    psdList.add(psd);
+                if (p.getSharedResources() != null && !p.getSharedResources().isEmpty()) {
+                    for (PersonShare sharedResource : p.getSharedResources()) {
+                        PersonShareDTO psd = personShareConverter.toDTO(sharedResource);
+                        psd.setTargetPerson(personConverter.toDTO(sharedResource.getTargetPerson()));
+                        psdList.add(psd);
+                    }
+                    pd.setSharedResources(psdList);
                 }
-                pd.setSharedResources(psdList);
+
+                if (p.getRolePersons() != null && !p.getRolePersons().isEmpty()) {
+                    List<RoleDTO> roles = new ArrayList<>();
+                    for (Role r : p.getRolePersons()
+                            .stream()
+                            .map(RolePerson::getRole)
+                            .collect(Collectors.toList())) {
+                        roles.add(roleConverter.toDTO(r));
+
+                    }
+                    pd.setRoles(roles);
+                }
                 pList.add(pd);
             }
         }

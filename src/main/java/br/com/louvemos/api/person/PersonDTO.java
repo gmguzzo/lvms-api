@@ -35,6 +35,7 @@ public class PersonDTO implements Serializable {
     private RoleDTO role;
     private PersonShareDTO personShare;
     private List<PersonShareDTO> sharedResources;
+    private List<RoleDTO> roles;
 
     public PersonDTO(Long id) {
         this.id = id;
