@@ -84,6 +84,7 @@ public class AlbumService {
 
         artistServiceValidator.validateArtistFound(aPersist);
 
+        album.setPerson(person);
         album.setArtist(aPersist);
         album.setUpTimestamps();
 
