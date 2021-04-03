@@ -60,12 +60,7 @@ public class AlbumService {
     }
 
     public List<Album> list(
-            String q,
-            List<Long> aIdList,
-            List<String> names,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> aIdList, List<Long> artistIds, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
@@ -78,7 +73,7 @@ public class AlbumService {
                     }
                 });
 
-        return albumRepository.list(q, aIdList, names, firstResult, maxResults, sortWithDbKeys);
+        return albumRepository.list(q, aIdList, artistIds, names, firstResult, maxResults, sortWithDbKeys);
     }
 
     public Album create(Album album, Artist artist) throws LvmsException {

@@ -45,6 +45,7 @@ public class AlbumController extends BaseController {
     @ResponseBody
     public BaseDTO list(
             @RequestParam(required = false, value = "ids") String ids,
+            @RequestParam(required = false, value = "artistIds") String artistIds,
             @RequestParam(required = false, value = "q") String q,
             @RequestParam(required = false, value = "names") String names,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
@@ -53,13 +54,14 @@ public class AlbumController extends BaseController {
     ) throws LvmsException {
 
         List<Long> idList = ControllerUtils.parseCSVToLongList(ids);
+        List<Long> artistIdList = ControllerUtils.parseCSVToLongList(artistIds);
         List<String> nameList = ControllerUtils.parseCSVToStringList(names);
 
         firstResult = ControllerUtils.adjustFirstResult(firstResult);
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Album> list = albumService.list(q, idList, nameList, firstResult, maxResults, sortMap);
+        List<Album> list = albumService.list(q, idList, artistIdList, nameList, firstResult, maxResults, sortMap);
 
         List<AlbumDTO> adList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {

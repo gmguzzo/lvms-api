@@ -5,8 +5,6 @@ package br.com.louvemos.api.album;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.base.BaseRepositoryHibernate;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.base.StringUtils;
@@ -44,12 +42,7 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
     }
 
     public List<Album> list(
-            String q,
-            List<Long> aIdList,
-            List<String> names,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> aIdList, List<Long> artistIds, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
         String queryStrBase = "SELECT a.*\n"
                 + "FROM album a \n";
 
@@ -57,6 +50,10 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
 
         if (aIdList != null && !aIdList.isEmpty()) {
             filterStrList.add("(a.id IN (:aIdList))");
+        }
+
+        if (artistIds != null && !artistIds.isEmpty()) {
+            filterStrList.add("(a.artist_id IN (:artistIds))");
         }
 
         if (names != null && !names.isEmpty()) {
@@ -96,6 +93,10 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
 
         if (aIdList != null && !aIdList.isEmpty()) {
             query.setParameterList("aIdList", aIdList);
+        }
+
+        if (artistIds != null && !artistIds.isEmpty()) {
+            query.setParameterList("artistIds", artistIds);
         }
         if (names != null && !names.isEmpty()) {
             query.setParameterList("names", names);
