@@ -5,7 +5,7 @@ package br.com.louvemos.api.artist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
@@ -51,12 +51,7 @@ public class ArtistService {
     }
 
     public List<Artist> list(
-            String q,
-            List<Long> aIdList,
-            List<String> names,
-            Integer firstResult,
-            Integer maxResults,
-            LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> aIdList, List<String> names, Boolean isPublic, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
@@ -69,10 +64,11 @@ public class ArtistService {
                     }
                 });
 
-        return artistRepository.list(q, aIdList, names, firstResult, maxResults, sortWithDbKeys);
+        return artistRepository.list(q, aIdList, names, isPublic, firstResult, maxResults, sortWithDbKeys);
     }
 
-    public Artist create(Artist artist) throws LvmsException {
+    public Artist create(Artist artist, Person p) throws LvmsException {
+        artist.setPerson(p);
         artist.setUpTimestamps();
 
         artistServiceValidator.validatePersist(artist);

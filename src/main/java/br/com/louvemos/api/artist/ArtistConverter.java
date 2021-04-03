@@ -5,10 +5,18 @@ package br.com.louvemos.api.artist;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.louvemos.api.auth.MyUserDetails;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ArtistConverter {
+
+    @Autowired
+    private PersonService personService;
 
     public Artist toModel(Long id, ArtistDTO ad) {
         if (ad == null) {
@@ -30,6 +38,21 @@ public class ArtistConverter {
 
     public ArtistDTO toDTO(Artist a) {
         if (a == null) {
+            return null;
+        }
+
+        boolean perm = true;
+        MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Person pPersist = personService.load(null, authDetails.getUsername());
+
+        if (!a.isPublic()) {
+            perm = false;
+            if (a.getPerson().getUsername().equals(pPersist.getUsername())) {
+                perm = true;
+            }
+        }
+
+        if (!perm) {
             return null;
         }
 

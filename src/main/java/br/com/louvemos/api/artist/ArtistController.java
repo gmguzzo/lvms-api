@@ -8,8 +8,11 @@ package br.com.louvemos.api.artist;
 import br.com.louvemos.api.album.Album;
 import br.com.louvemos.api.album.AlbumConverter;
 import br.com.louvemos.api.album.AlbumDTO;
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @author gmguzzo
@@ -26,6 +30,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/v2/artists")
 public class ArtistController extends BaseController {
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private ArtistService artistService;
@@ -46,6 +53,7 @@ public class ArtistController extends BaseController {
             @RequestParam(required = false, value = "ids") String ids,
             @RequestParam(required = false, value = "q") String q,
             @RequestParam(required = false, value = "names") String names,
+            @RequestParam(required = false, value = "isPublic") Boolean isPublic,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
             @RequestParam(required = false, value = "maxResults") Integer maxResults,
             @RequestParam(required = false, value = "sort") String sort
@@ -58,7 +66,7 @@ public class ArtistController extends BaseController {
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Artist> list = artistService.list(q, idList, nameList, firstResult, maxResults, sortMap);
+        List<Artist> list = artistService.list(q, idList, nameList, isPublic, firstResult, maxResults, sortMap);
 
         List<ArtistDTO> adList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
@@ -95,8 +103,15 @@ public class ArtistController extends BaseController {
         // Convert
         Artist a = artistConverter.toModel(null, bdIn.getArtist());
 
+        Person p = null;
+        if (!a.isPublic()) {
+            MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            p = personService.load(null, authDetails.getUsername());
+        }
+        
         // Create
-        Artist aPersist = artistService.create(a);
+        Artist aPersist = artistService.create(a, p);
+
 
         // Embed
         BaseDTO bdOut = new BaseDTO();

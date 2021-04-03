@@ -79,7 +79,7 @@ public class AlbumService {
     public Album create(Album album, Person person, Artist artist) throws LvmsException {
         Artist aPersist = artistService.load(artist.getId(), artist.getArtistName());
         if (aPersist == null) {
-            aPersist = artistService.create(artist);
+            aPersist = artistService.create(artist, person);
         }
 
         artistServiceValidator.validateArtistFound(aPersist);

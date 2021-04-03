@@ -6,6 +6,7 @@
 package br.com.louvemos.api.artist;
 
 import br.com.louvemos.api.album.AlbumDTO;
+import br.com.louvemos.api.person.PersonDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,10 @@ public class ArtistDTO implements Serializable {
     private String since;
 
     private List<AlbumDTO> albums;
+
+    private Boolean isPublic;
+
+    private PersonDTO person;
 
     public ArtistDTO(Long id) {
         this.id = id;
