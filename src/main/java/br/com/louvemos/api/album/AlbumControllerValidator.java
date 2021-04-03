@@ -1,10 +1,12 @@
 package br.com.louvemos.api.album;
 
 import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.exception.LvmsCodesEnum;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.base.BaseDTO;
 import br.com.louvemos.api.base.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,15 +22,18 @@ public class AlbumControllerValidator {
         validateGenre(ad);
         validateDebut(ad);
         validateArtist(ad.getArtist());
+
+        validatePermission(ad);
     }
 
     public void validateUpdate(Long id, BaseDTO bdIn) throws LvmsException {
         validateId(id);
         validateBaseDTO(bdIn);
 
-        AlbumDTO c = bdIn.getAlbum();
+        AlbumDTO ad = bdIn.getAlbum();
 
-        validateAlbum(c);
+        validateAlbum(ad);
+        validatePermission(ad);
     }
 
     public void validateDelete(Long id) throws LvmsException {
@@ -75,6 +80,20 @@ public class AlbumControllerValidator {
         if (ad.getDebut() != null && StringUtils.isBlank(ad.getDebut())) {
             throw new LvmsException(LvmsCodesEnum.ALBUM_DEBUT_INVALID);
         }
+    }
+
+    private void validatePermission(AlbumDTO a) throws LvmsException {
+        if (a.getIsPublic() == null || !a.getIsPublic()) {
+            return;
+        }
+        MyUserDetails loggedUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        boolean perm = loggedUser.getAuthorities().stream().filter(e -> e.getAuthority().equals("ADMIN")).findAny().isPresent();
+        if (perm) {
+            return;
+        }
+
+        throw new LvmsException(LvmsCodesEnum.FORBIDDEN);
     }
 
 }

@@ -99,7 +99,7 @@ public class SongService {
     public Song create(Song song, Album album, Artist ar, Person p, List<Category> categories) throws LvmsException {
         Album aPersist = albumService.load(album.getId(), album.getAlbumName());
         if (aPersist == null) {
-            aPersist = albumService.create(album, ar);
+            aPersist = albumService.create(album, p, ar);
         }
         albumServiceValidator.validateAlbumFound(aPersist);
         song.setAlbum(aPersist);

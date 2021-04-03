@@ -8,8 +8,11 @@ package br.com.louvemos.api.album;
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistConverter;
 import br.com.louvemos.api.artist.ArtistDTO;
+import br.com.louvemos.api.auth.MyUserDetails;
 import br.com.louvemos.api.base.*;
 import br.com.louvemos.api.exception.LvmsException;
+import br.com.louvemos.api.person.Person;
+import br.com.louvemos.api.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -30,6 +34,9 @@ public class AlbumController extends BaseController {
 
     @Autowired
     private AlbumService albumService;
+
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private AlbumControllerValidator albumControllerValidator;
@@ -47,6 +54,7 @@ public class AlbumController extends BaseController {
             @RequestParam(required = false, value = "ids") String ids,
             @RequestParam(required = false, value = "artistIds") String artistIds,
             @RequestParam(required = false, value = "q") String q,
+            @RequestParam(required = false, value = "isPublic") Boolean isPublic,
             @RequestParam(required = false, value = "names") String names,
             @RequestParam(required = false, value = "firstResult") Integer firstResult,
             @RequestParam(required = false, value = "maxResults") Integer maxResults,
@@ -61,7 +69,7 @@ public class AlbumController extends BaseController {
         maxResults = ControllerUtils.adjustMaxResults(maxResults, 20, 40);
         LinkedHashMap<String, SortDirectionEnum> sortMap = ControllerUtils.parseSortParam(sort);
 
-        List<Album> list = albumService.list(q, idList, artistIdList, nameList, firstResult, maxResults, sortMap);
+        List<Album> list = albumService.list(q, idList, artistIdList, isPublic, nameList, firstResult, maxResults, sortMap);
 
         List<AlbumDTO> adList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
@@ -94,8 +102,14 @@ public class AlbumController extends BaseController {
         Album a = albumConverter.toModel(null, bdIn.getAlbum());
         Artist ar = artistConverter.toModel(null, bdIn.getAlbum().getArtist());
 
+        Person p = null;
+        if (!a.isPublic()) {
+            MyUserDetails authDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            p = personService.load(null, authDetails.getUsername());
+        }
+
         // Create
-        Album sPersist = albumService.create(a, ar);
+        Album sPersist = albumService.create(a, p, ar);
 
         // Embed
         BaseDTO bdOut = new BaseDTO();

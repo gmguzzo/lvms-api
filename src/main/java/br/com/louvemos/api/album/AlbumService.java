@@ -5,10 +5,10 @@ package br.com.louvemos.api.album;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import br.com.louvemos.api.artist.Artist;
 import br.com.louvemos.api.artist.ArtistService;
 import br.com.louvemos.api.artist.ArtistServiceValidator;
+import br.com.louvemos.api.person.Person;
 import br.com.louvemos.api.base.ServiceUtils;
 import br.com.louvemos.api.base.SortDirectionEnum;
 import br.com.louvemos.api.exception.LvmsException;
@@ -60,7 +60,7 @@ public class AlbumService {
     }
 
     public List<Album> list(
-            String q, List<Long> aIdList, List<Long> artistIds, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> aIdList, List<Long> artistIds, Boolean isPublic, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
 
         LinkedHashMap<String, SortDirectionEnum> sortWithDbKeys = ServiceUtils.convertSortMapToDbKeys(
                 sortMap,
@@ -73,10 +73,10 @@ public class AlbumService {
                     }
                 });
 
-        return albumRepository.list(q, aIdList, artistIds, names, firstResult, maxResults, sortWithDbKeys);
+        return albumRepository.list(q, aIdList, artistIds, isPublic, names, firstResult, maxResults, sortWithDbKeys);
     }
 
-    public Album create(Album album, Artist artist) throws LvmsException {
+    public Album create(Album album, Person person, Artist artist) throws LvmsException {
         Artist aPersist = artistService.load(artist.getId(), artist.getArtistName());
         if (aPersist == null) {
             aPersist = artistService.create(artist);

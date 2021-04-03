@@ -7,6 +7,7 @@ package br.com.louvemos.api.album;
 
 import br.com.louvemos.api.base.BaseEntity;
 import br.com.louvemos.api.artist.Artist;
+import br.com.louvemos.api.person.Person;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,6 +49,13 @@ public class Album extends BaseEntity {
 
     @Column(name = "debut")
     private String debut;
+    
+    @Column(name = "is_public", nullable = false)
+    private boolean isPublic = false;
+    
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name = "fk_person_id"))
+    private Person person;
 
     public Album(Long id) {
         this.id = id;

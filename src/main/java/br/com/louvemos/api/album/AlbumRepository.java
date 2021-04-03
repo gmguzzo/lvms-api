@@ -42,7 +42,7 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
     }
 
     public List<Album> list(
-            String q, List<Long> aIdList, List<Long> artistIds, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
+            String q, List<Long> aIdList, List<Long> artistIds, Boolean isPublic, List<String> names, Integer firstResult, Integer maxResults, LinkedHashMap<String, SortDirectionEnum> sortMap) throws LvmsException {
         String queryStrBase = "SELECT a.*\n"
                 + "FROM album a \n";
 
@@ -62,6 +62,10 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
 
         if (!StringUtils.isBlank(q)) {
             filterStrList.add("(a.album_name ilike (:q))");
+        }
+
+        if (isPublic != null) {
+            filterStrList.add("(a.is_public = (:isPublic))");
         }
 
         // Build final query string
@@ -104,6 +108,10 @@ public class AlbumRepository extends BaseRepositoryHibernate<Album> {
 
         if (!StringUtils.isBlank(q)) {
             query.setParameter("q", '%' + q + '%');
+        }
+
+        if (isPublic != null) {
+            query.setParameter("isPublic", isPublic);
         }
         //date filter
         if (firstResult != null) {
