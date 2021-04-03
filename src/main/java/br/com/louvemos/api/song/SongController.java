@@ -20,6 +20,7 @@ import br.com.louvemos.api.category.CategoryConverter;
 import br.com.louvemos.api.category.CategoryDTO;
 import br.com.louvemos.api.exception.LvmsException;
 import br.com.louvemos.api.externallink.ExternalLinkConverter;
+import br.com.louvemos.api.person.PersonConverter;
 import br.com.louvemos.api.person.PersonService;
 import br.com.louvemos.api.songsetlist.SongSetlist;
 import br.com.louvemos.api.songcategory.SongCategory;
@@ -72,6 +73,9 @@ public class SongController extends BaseController {
 
     @Autowired
     private SongSetlistService songSetlistService;
+
+    @Autowired
+    private PersonConverter personConverter;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -132,6 +136,10 @@ public class SongController extends BaseController {
                 }
 
                 sd.setExternalLinks(elList);
+            }
+
+            if (s.getPerson() != null) {
+                sd.setPerson(personConverter.toDTO(s.getPerson()));
             }
         }
 
