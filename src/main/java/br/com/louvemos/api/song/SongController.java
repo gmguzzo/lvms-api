@@ -108,15 +108,19 @@ public class SongController extends BaseController {
 
         List<SongDTO> sdList = new ArrayList<>();
         for (Song s : list) {
+            SongDTO sd = songConverter.toDTO(s);
+            if (sd == null) {
+                continue;
+            }
+
             Album a = s.getAlbum();
-            AlbumDTO ad = albumConverter.toDTO(a);
+            AlbumDTO ad = albumConverter.toDTO(a, true);
 
             Artist ar = a.getArtist();
-            ArtistDTO ard = artistConverter.toDTO(ar);
+            ArtistDTO ard = artistConverter.toDTO(ar, true);
 
             ad.setArtist(ard);
 
-            SongDTO sd = songConverter.toDTO(s);
             sd.setAlbum(ad);
             sdList.add(sd);
 

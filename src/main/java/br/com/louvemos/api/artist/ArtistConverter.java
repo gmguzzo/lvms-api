@@ -36,7 +36,7 @@ public class ArtistConverter {
         return a;
     }
 
-    public ArtistDTO toDTO(Artist a) {
+    public ArtistDTO toDTO(Artist a, boolean hasRecursivePermission) {
         if (a == null) {
             return null;
         }
@@ -52,7 +52,7 @@ public class ArtistConverter {
             }
         }
 
-        if (!perm) {
+        if (!perm && !hasRecursivePermission) {
             return null;
         }
 

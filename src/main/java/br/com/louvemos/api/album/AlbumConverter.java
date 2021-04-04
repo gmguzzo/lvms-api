@@ -37,7 +37,7 @@ public class AlbumConverter {
         return a;
     }
 
-    public AlbumDTO toDTO(Album a) {
+    public AlbumDTO toDTO(Album a, boolean hasRecursivePermission) {
         if (a == null) {
             return null;
         }
@@ -53,7 +53,7 @@ public class AlbumConverter {
             }
         }
 
-        if (!perm) {
+        if (!perm && !hasRecursivePermission) {
             return null;
         }
 

@@ -71,11 +71,11 @@ public class ArtistController extends BaseController {
         List<ArtistDTO> adList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             for (Artist a : list) {
-                ArtistDTO ard = artistConverter.toDTO(a);
+                ArtistDTO ard = artistConverter.toDTO(a, false);
                 if (a.getAlbums() != null && !a.getAlbums().isEmpty()) {
                     List<AlbumDTO> albums = new ArrayList<>();
                     for (Album al : a.getAlbums()) {
-                        albums.add(albumConverter.toDTO(al));
+                        albums.add(albumConverter.toDTO(al, false));
                     }
                     ard.setAlbums(albums);
                 }
@@ -115,7 +115,7 @@ public class ArtistController extends BaseController {
 
         // Embed
         BaseDTO bdOut = new BaseDTO();
-        bdOut.setArtist(artistConverter.toDTO(aPersist));
+        bdOut.setArtist(artistConverter.toDTO(aPersist, false));
 
         return bdOut;
     }
@@ -140,7 +140,7 @@ public class ArtistController extends BaseController {
 
         // Embed
         BaseDTO bdOut = new BaseDTO();
-        bdOut.setArtist(artistConverter.toDTO(sPersist));
+        bdOut.setArtist(artistConverter.toDTO(sPersist, false));
 
         return bdOut;
     }
