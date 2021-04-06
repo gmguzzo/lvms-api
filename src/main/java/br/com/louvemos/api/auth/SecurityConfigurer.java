@@ -34,7 +34,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final String ENV = System.getenv("ENV");
 
-    private final String[] permittedPaths = {"/v2/auth", "/", "/v2/persons/self"};
+    private final String[] permittedPaths = {"/v2/auth", "/", "/v2/persons/self", "/v2/passwords/**"};
     private final String[] userPermittedPOSTPUTDELETEPaths = {"/v2/**", "/v2/**/**"};
 
     @Override
