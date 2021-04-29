@@ -34,6 +34,7 @@ public class SongConverter {
         Song s = new Song();
 
         s.setId(id);
+        s.setIndex(sd.getIndex());
         s.setTitle(sd.getTitle());
         s.setDescription(sd.getDescription());
         s.setLyric(sd.getLyric());
@@ -74,6 +75,7 @@ public class SongConverter {
 
         SongDTO sd = new SongDTO();
         sd.setId(s.getId());
+        sd.setIndex(s.getIndex());
         sd.setTitle(s.getTitle());
         sd.setDescription(s.getDescription());
         sd.setLyric(s.getLyric());

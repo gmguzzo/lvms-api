@@ -35,6 +35,9 @@ public class Song extends BaseEntity {
     @Column(name = "title", columnDefinition = "text", nullable = false)
     private String title;
 
+    @Column(name = "index")
+    private Long index;
+
     @Column(name = "description", columnDefinition = "text", nullable = false)
     private String description;
 

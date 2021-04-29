@@ -30,6 +30,8 @@ public class SongDTO implements Serializable {
 
     private Long id;
 
+    private Long index;
+
     private String title;
 
     private String description;

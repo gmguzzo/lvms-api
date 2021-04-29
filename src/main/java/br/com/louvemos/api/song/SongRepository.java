@@ -68,7 +68,8 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
 
         if (!StringUtils.isBlank(q)) {
             filterStrList
-                    .add("(s.title ilike (:q)\n"
+                    .add("(cast(s.index as text) = (:qIndex)\n"
+                            + "OR s.title ilike (:q)\n"
                             + "OR s.lyric ilike (:q)\n"
                             + "OR a.album_name ilike (:q)\n"
                             + "OR ar.artist_name ilike (:q))");
@@ -124,6 +125,7 @@ public class SongRepository extends BaseRepositoryHibernate<Song> {
 
         if (!StringUtils.isBlank(q)) {
             query.setParameter("q", '%' + q + '%');
+            query.setParameter("qIndex", q);
         }
         //date filter
         if (firstResult != null) {
