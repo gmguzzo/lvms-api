@@ -32,6 +32,7 @@ public class ArtistConverter {
         a.setArtistName(ad.getArtistName());
         a.setGenre(ad.getGenre());
         a.setSince(ad.getSince());
+        a.setPublic(ad.getIsPublic() != null ? ad.getIsPublic() : false);
 
         return a;
     }
